@@ -1,0 +1,46 @@
+https://codibook.net/
+https://www.pinterest.com/pin/68736903068/
+liquid.sunsetdreams
+https://faune-bijouterie.com/content/4-a-propos
+
+click and resize
+http://jsfiddle.net/3jMQD/
+
+draggable
+https://www.kirupa.com/html5/drag.htm
+
+drag and drop
+https://stackoverflow.com/questions/46221529/drag-and-drop-copy-in-another-div-is-lining-up
+
+
+custom scroll bar
+https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_scrollbar
+
+upload
+http://jsbin.com/uboqu3/1/edit?html,js,output
+
+-renew, undo, redo
+-rename
+-save
+-search
+-upload items
+-click and resize
+-draggable
+
+3/4 html css
+4/4 
+-click and resize
+-draggable
+
+5-6/4 -upload items
+
+7/4 -search
+
+8/4 -renew, undo, redo
+
+9/4 -favorite function 
+10/4 -save, favorite page
+
+11-12/4 - landing page
+
+13/4 - more animation

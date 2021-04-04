@@ -1,0 +1,127 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+*:focus {
+    outline: 0 !important;
+}
+
+.flex-btw-center {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+body{
+    margin: 0 180px;
+    background-color: #FBF6F1;
+}
+
+.navbar {
+    margin: 40px 0 50px 0;
+}
+
+li{
+    list-style-type: none;
+}
+
+.title {
+    font-family: 'Mulish', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    color: #262626;
+} 
+
+.subtitle {
+    font-family: 'Mulish', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    text-align: center;
+    color: #262626;
+}
+
+.page_title {
+    font-family: Yeseva One;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
+    letter-spacing: 0.02em;
+    color: #262626;
+}
+
+.body_container {
+    display: flex;
+    justify-content: center;
+}
+
+.tool_wrapper {
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+
+.left_tool {
+    width: 100px;
+    padding-top: 10px;
+}
+
+.canvas, .new-canvas{
+    width: 535px;
+    height: 535px;
+    background-color: #FFFFFF;
+    border: 0.5px solid #C6C6C6;
+    box-sizing: border-box;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+button:hover {cursor: pointer;}
+
+#btn_save {
+    width: 85px;
+    height: 30px;
+    background: #FFC398 url("icons-assets/tick.svg") no-repeat 15px 50%;
+    padding: 0 15px 0 35px;
+    border: none;
+    border-radius: 3px;
+}
+
+#btn_back {
+    width: 24px;
+    height: 24px;
+    border: none;
+    background-color: transparent;
+    position: absolute;
+    background: url(icons-assets/fi_arrow-left.svg) no-repeat center center;
+}
+
+.category_wrapper, .item_wrapper {
+    width: 535px;
+    height: 535px;
+    padding: 40px 15px 20px 20px;
+    overflow: auto;
+}
+
+.category, .item{
+    float: left;
+    min-width: 110px;
+    min-height: 130px; 
+    margin: 0 10px 30px 0;
+}
+.category_thumb, .item_thumb{
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+}
+
+.category_thumb:hover, .item_thumb:hover {
+    filter: drop-shadow(3px 3px 1px rgba(0, 0, 0, 0.25));
+    cursor: pointer;
+}
+
+img:-moz-drag-over{
+    object-fit: contain;
+}
