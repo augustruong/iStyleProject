@@ -24,7 +24,7 @@ function renderItem() {
              src="images/cardigan/802232913.png">
         <div class="title">Basic Black</div>
     </div>
-    `
+    `   
 }
 
 function closeCategory(e) {
@@ -37,26 +37,30 @@ function allowDrop(e) {e.preventDefault();}
 
 function dragTransfer(e) {
     e.dataTransfer.setData("item_id", e.target.id);
-    //e.dataTransfer.effectAllowed = "copy";
 }
 
 function drop(e) {
     e.preventDefault();
-    console.log("drop")
 
     var item_id = e.dataTransfer.getData("item_id");
-    var copyimg = document.createElement("img");
     var original = document.getElementById(item_id);
+    var copyimg = document.createElement("img");
+    var copyimg_wrapper = document.createElement("div");
 
-    copyimg.className = "chosen_item";
+    copyimg_wrapper.className = "chosen_item";
     copyimg.src = original.src;
     copyimg.style.position = "absolute";
     copyimg.style.left = (e.clientX - e.target.offsetLeft - 55) +"px";
     copyimg.style.top = (e.clientY - e.target.offsetTop - 55) +"px";
     copyimg.style.height = '110px';
     copyimg.style.objectFit = 'contain';
-    copyimg.ondragstart = function() {return false}
-    e.target.appendChild(copyimg);
+
+    copyimg_wrapper.style.height = '110px';
+    
+    copyimg_wrapper.ondragstart = function() {return false}
+
+    copyimg_wrapper.appendChild(copyimg);
+    e.target.appendChild(copyimg_wrapper);
     
     let canvas = document.getElementsByClassName("canvas")[0];
     canvas.addEventListener("touchstart", dragStart, false);
@@ -67,47 +71,39 @@ function drop(e) {
     canvas.addEventListener("mouseup", dragEnd, false);
     canvas.addEventListener("mousemove", dragItem, false);
 
-    copyimg.addEventListener('click', function init() {
-        // copyimg.className = copyimg.className + ' resizable';
-        var resizer = document.createElement('div');
-        resizer.className = 'resizer';
-        copyimg.appendChild(resizer);
-        console.dir(resizer)
-        // resizer.addEventListener('mousedown', initDrag, false);
-    }, false);
+    canvas.addEventListener("click", (e) => {
+        let targetElement = e.target; // clicked element
+
+        do {
+            // if click inside
+            if (targetElement == copyimg_wrapper) { 
+                console.log("resizable");
+                copyimg_wrapper.classList.remove("unresizable");
+                copyimg_wrapper.classList.add("resizable");
+                return;
+            }
+            //go up the DOM
+            targetElement = targetElement.parentNode;
+        } while (targetElement);
+
+        //click outside
+        console.log("click outside")
+        copyimg_wrapper.classList.remove("resizable");
+        copyimg_wrapper.classList.add("unresizable");
+    })
+
 }
 
-//Resize
-// function initDrag(e) {
-//    let startX = e.clientX;
-//    let startY = e.clientY;
-//    let startWidth = parseInt(document.defaultView.getComputedStyle(p).width, 10);
-//    let startHeight = parseInt(document.defaultView.getComputedStyle(p).height, 10);
-//    document.documentElement.addEventListener('mousemove', doDrag, false);
-//    document.documentElement.addEventListener('mouseup', stopDrag, false);
-// }
-
-// function doDrag(e) {
-//    p.style.width = (startWidth + e.clientX - startX) + 'px';
-//    p.style.height = (startHeight + e.clientY - startY) + 'px';
-// }
-
-// function stopDrag(e) {
-//     document.documentElement.removeEventListener('mousemove', doDrag, false);    document.documentElement.removeEventListener('mouseup', stopDrag, false);
-// }
-
-
 //Move item
-
 var activeItem = null;
 var active = false;
 
 function dragStart(e) {
-    console.log("start")
     if (e.target !== e.currentTarget) {
         active = true;
 
         activeItem = e.target;
+        console.dir(e.target)
 
         if (activeItem !== null) {
             if (!activeItem.xOffset) {activeItem.xOffset = 0}
@@ -116,7 +112,6 @@ function dragStart(e) {
                 activeItem.initialX = e.touches[0].clientX - activeItem.xOffset;
                 activeItem.initialY = e.touches[0].clientY - activeItem.yOffset;
             } else {
-                //console.log("doing something!");
                 activeItem.initialX = e.clientX - activeItem.xOffset;
                 activeItem.initialY = e.clientY - activeItem.yOffset;
             }
@@ -125,7 +120,6 @@ function dragStart(e) {
 }
 
 function dragEnd(e) {
-    console.log("end")
     if (activeItem !== null) {
         activeItem.initialX = activeItem.currentX;
         activeItem.initialY = activeItem.currentY;
@@ -135,7 +129,6 @@ function dragEnd(e) {
 }
 
 function dragItem(e) {
-    console.log("moving")
     if (active) {
         if (e.type === "touchmove") {
             e.preventDefault();
@@ -154,6 +147,19 @@ function dragItem(e) {
 
 function setTranslate(xPos, yPos, el) {
     el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
-  }
+}
 
-  
+function renew() {
+    let canvas = document.querySelector('.canvas');
+    canvas.innerHTML = ''
+}
+
+
+
+var search_box = document.querySelectorAll('.search_box input[type="text"] + span');
+
+search_box.forEach((elm) => {
+	elm.addEventListener('click', () => {
+        elm.previousElementSibling.value = '';
+	});
+});

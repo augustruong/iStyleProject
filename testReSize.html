@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        .resizable, .unresizable {
+        display: inline-block;
+        background: transparent;
+        overflow: hidden;
+        line-height: 0;
+        }
+
+        .resizable {
+            resize: horizontal;
+        }
+       
+        .resizable img, .unresizable img {
+        width: 100%;
+        height: 100%;
+        }
+
+        .canvas {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+  </head>
+
+  <body>
+      <div class="canvas">
+        <div id="nhinNe">
+            <img src="images/cardigan/1121788724.png" alt="">  
+        </div>
+      </div>
+
+    <script>        
+        document.addEventListener("click", (e) => {
+            let img = document.querySelector("#nhinNe")
+            let targetElement = e.target; // clicked element
+
+            do {
+                // if click inside
+                if (targetElement == img) { 
+                    img.classList.add("resizable");
+                    return;
+                }
+                //go up the DOM
+                targetElement = targetElement.parentNode;
+            } while (targetElement);
+
+            //click outside
+            img.classList.remove("resizable");
+            img.classList.add("unresizable");
+        })
+
+    </script>
+    
+  </body>
+</html>

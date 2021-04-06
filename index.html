@@ -21,10 +21,10 @@
                 MY CLOSET
             </li>
             <li>
-                <a href="#"><img src="icons-assets/closet.svg" alt=""></a>
+                <a href="#"><img src="icons-assets/closet.svg" draggable="false"></a>
             </li>
             <li>
-                <a href="#"><img src="icons-assets/u_user.svg" alt=""></a>
+                <a href="#"><img src="icons-assets/u_user.svg" draggable="false"></a>
             </li>
         </ul>
     </div>
@@ -33,9 +33,9 @@
         <div class="left_wrapper" style="margin-right: 30px;">
             <div class="tool_wrapper flex-btw-center">
                 <div class="left_tool flex-btw-center">
-                    <a href="#"><img src="icons-assets/fi_rotate-cw.svg" alt=""></a>
-                    <a href="#"><img src="icons-assets/fi_corner-up-left.svg" alt=""></a>
-                    <a href="#"><img src="icons-assets/fi_corner-up-right.svg" alt=""></a>
+                    <button id="btn_renew" onclick="renew()"></button>
+                    <button id="btn_undo"></button>
+                    <button id="btn_redo"></button>
                 </div>
                 <div class="middle_tool subtitle">outfit</div>
                 <div class="right_tool">
@@ -49,70 +49,74 @@
         <div class="right_wrapper">
             <div class="tool_wrapper flex-btw-center">
                 <div class="left_tool flex-btw-center" style="margin-left: 25px;">
-                    <a href="#"><img src="icons-assets/fi_search.svg" alt=""></a>
+                    <!-- <button id="btn_search"></button> -->
+                    <div class="search_box">
+                        <input type="text",placeholder=""><span></span>
+                    </div>
                 </div>
+                
                 <div class="category_title" style="display: none; padding-right:50px"> </div>
-                <div class="right_tool flex-btw-center" style="width: 65px; padding-top: 10px; margin-right: 25px;">
-                    <a href="#"><img src="icons-assets/heart.svg" alt=""></a>
-                    <a href="#"><img src="icons-assets/fi_plus-circle.svg" alt=""></a>
+                <div class="right_tool flex-btw-center" style="width: 65px; margin-right: 25px;">
+                    <button id="btn_love"></button>
+                    <button id="btn_plus"></button>
                 </div>
             </div>
             <div class="category_container">
                 <div class="category_wrapper">
                     <div class="category" name="cardigan" onclick="openCategory(event,'Cardigan')">
-                            <img class="category_thumb" alt="cardigan" src="images/cardigan/1121788724.png">
+                            <img class="category_thumb" alt="cardigan" src="images/cardigan/1121788724.png" draggable="false">
                             <div class="title">Cardigan</div>
                     </div>
                     <div class="category" name="coat">
-                        <img class="category_thumb" alt="coat" src="images/coat/1101419772.png">
+                        <img class="category_thumb" alt="coat" src="images/coat/1101419772.png" draggable="false">
                         <div class="title">Coat</div>
                     </div>
                     <div class="category" name="jacket">
-                        <img class="category_thumb" alt="jacket" src="images/jacket/601519940.png">
+                        <img class="category_thumb" alt="jacket" src="images/jacket/601519940.png" draggable="false">
                         <div class="title">Jacket</div>
                     </div>
                     <div class="category" name="zipup">
-                        <img class="category_thumb" alt="zipup" src="images/zip_up/790474347.png">
+                        <img class="category_thumb" alt="zipup" src="images/zip_up/790474347.png" draggable="false">
                        <div class="title">Zip Up</div>
                     </div>
                     <div class="category" name="knitwears">
-                        <img class="category_thumb" alt="knitwears" src="images/knitwears/1400949761.png">
+                        <img class="category_thumb" alt="knitwears" src="images/knitwears/1400949761.png" draggable="false">
                         <div class="title">Knitwears</div>
                     </div>
                     <div class="category" name="long_sleeve">
-                        <img class="category_thumb" alt="long_sleeve" src="images/long_sleeve/1112643766.png">
+                        <img class="category_thumb" alt="long_sleeve" src="images/long_sleeve/1112643766.png" draggable="false">
                         <div class="title">Long Sleeve</div>
                     </div>
                     <div class="category" name="short_sleeve">
-                        <img class="category_thumb" alt="short_sleeve" src="images/short_sleeve/1006784549.png">
+                        <img class="category_thumb" alt="short_sleeve" src="images/short_sleeve/1006784549.png" draggable="false">
                         <div class="title">Short Sleeve</div>
                     </div>
                     <div class="category" name="sleeveless">
-                        <img class="category_thumb" alt="sleeveless" src="images/sleeveless/501791617.png">
+                        <img class="category_thumb" alt="sleeveless" src="images/sleeveless/501791617.png" draggable="false">
                         <div class="title">Sleeveless</div>
                     </div>
                     <div class="category" name="cardigan">
-                        <img class="category_thumb" alt="cardigan" src="images/cardigan/1121788724.png">
+                        <img class="category_thumb" alt="cardigan" src="images/cardigan/1121788724.png" draggable="false">
                         <div class="title">Cardigan</div>
                     </div>
                     <div class="category" name="cardigan">
-                        <img class="category_thumb" alt="cardigan" src="images/cardigan/1121788724.png">
+                        <img class="category_thumb" alt="cardigan" src="images/cardigan/1121788724.png" draggable="false">
                         <div class="title">Cardigan</div>
                     </div>
                     <div class="category" name="cardigan">
-                        <img class="category_thumb" alt="cardigan" src="images/cardigan/1121788724.png">
+                        <img class="category_thumb" alt="cardigan" src="images/cardigan/1121788724.png" draggable="false">
                         <div class="title">Cardigan</div>
                     </div>
                     <div class="category" name="cardigan">
-                        <img class="category_thumb" alt="cardigan" src="images/cardigan/1121788724.png">
+                        <img class="category_thumb" alt="cardigan" src="images/cardigan/1121788724.png" draggable="false">
                         <div class="title">Cardigan</div>
                     </div>
                     <div class="category" name="cardigan">
-                        <img class="category_thumb" alt="cardigan" src="images/cardigan/1121788724.png">
+                        <img class="category_thumb" alt="cardigan" src="images/cardigan/1121788724.png" draggable="false">
                         <div class="title">Cardigan</div>
                     </div>
                     <div class="category" name="cardigan">
-                        <img class="category_thumb" alt="cardigan" src="images/cardigan/1121788724.png">
+                        <img class="category_thumb" alt="cardigan" src="images/cardigan/1121788724.png" draggable="false">
                         <div class="title">Cardigan</div>
                     </div>
                 </div>
@@ -126,3 +130,5 @@
 
 </body>
 </html>
+
+
