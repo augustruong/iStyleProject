@@ -77,7 +77,6 @@ function drop(e) {
         do {
             // if click inside
             if (targetElement == copyimg_wrapper) { 
-                console.log("resizable");
                 copyimg_wrapper.classList.remove("unresizable");
                 copyimg_wrapper.classList.add("resizable");
                 return;
@@ -87,7 +86,6 @@ function drop(e) {
         } while (targetElement);
 
         //click outside
-        console.log("click outside")
         copyimg_wrapper.classList.remove("resizable");
         copyimg_wrapper.classList.add("unresizable");
     })
@@ -161,8 +159,6 @@ function renew() {
 
 
 var search_box = document.querySelectorAll('.search_box input[type="text"] + span');
-
-console.dir(search_box)
 
 search_box.forEach((elm) => {
 	elm.addEventListener('click', () => {

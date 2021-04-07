@@ -192,14 +192,12 @@ img:-moz-drag-over{
     display: inline-block;
     position: relative;
     border-radius: 50px;
-    /* width: 20px;
-    height: 20px; */
   }
 
 .search_box input[type="text"] {
     font-size: 14px;
-    width: 25px;
-    height: 25px;
+    width: 15px;
+    height: 15px;
     border: none;
     box-sizing: border-box;
     border-radius: 50px;
@@ -212,19 +210,20 @@ img:-moz-drag-over{
 }
 
 .search_box input[type="text"]:focus, .search_box input[type="text"]:not(:placeholder-shown) {
+    height: 25px;
     width: 100px;
     transition: width 800ms cubic-bezier(0.5, -0.5, 0.5, 1.5);
 } 
 
 .search_box input[type="text"]:focus + span, .search_box input[type="text"]:not(:placeholder-shown) + span {
-    bottom: 13px;
-    right: 10px;
+    bottom: 10px;
+    right: 15px;
     transition: bottom 300ms ease-out 800ms, right 300ms ease-out 800ms;
 }
 
 .search_box input[type="text"]:focus + span:after, .search_box input[type="text"]:not(:placeholder-shown) + span:after {
     top: 0;
-    right: 10px;
+    right: 1px;
     opacity: 1;
     transition: top 300ms ease-out 1100ms, right 300ms ease-out 1100ms, opacity 300ms ease 1100ms;
 }
@@ -240,7 +239,7 @@ img:-moz-drag-over{
     transition: bottom 300ms ease-out 300ms, right 300ms ease-out 300ms;
 }
 
-.search_box span:before, .search-box span:after {
+.search_box span:before, .search_box span:after {
     content: "";
     height: 10px;
     border-left: solid 3px #262626;
