@@ -155,11 +155,13 @@ function renew() {
 }
 
 
-
 var search_box = document.querySelectorAll('.search_box input[type="text"] + span');
+
+console.dir(search_box)
 
 search_box.forEach((elm) => {
 	elm.addEventListener('click', () => {
+        console.log("click")
         elm.previousElementSibling.value = '';
 	});
 });

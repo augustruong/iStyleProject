@@ -19,28 +19,19 @@ https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_scrollbar
 upload
 http://jsbin.com/uboqu3/1/edit?html,js,output
 
--renew, undo, redo
--rename
--save
--search
--upload items
--click and resize
--draggable
 
 3/4 html css
 4/4 
 -click and resize
 -draggable
 
-5-6/4 -upload items
+6/4 renew
 
-7/4 -search
+7/4 -landing page & search bar
+8/4 -resize
+9/4 -delete item
 
-8/4 -renew, undo, redo
+upload item
+search
 
-9/4 -favorite function 
-10/4 -save, favorite page
 
-11-12/4 - landing page
-
-13/4 - more animation
