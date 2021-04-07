@@ -179,7 +179,7 @@ img:-moz-drag-over{
 }
 
 .resizable {
-    resize: horizontal;
+    resize: both;
 }
    
 .resizable img, .unresizable img {
