@@ -46,23 +46,23 @@ function drop(e) {
     var original = document.getElementById(item_id);
     var copyimg = document.createElement("img");
     var copyimg_wrapper = document.createElement("div");
+    let canvas = document.getElementsByClassName("canvas")[0];
 
-    copyimg_wrapper.className = "chosen_item";
+    copyimg_wrapper.className = "chosen_item resizable";
     copyimg.src = original.src;
-    copyimg.style.position = "absolute";
-    copyimg.style.left = (e.clientX - e.target.offsetLeft - 55) +"px";
-    copyimg.style.top = (e.clientY - e.target.offsetTop - 55) +"px";
-    copyimg.style.height = '110px';
     copyimg.style.objectFit = 'contain';
 
+    copyimg_wrapper.style.position = "absolute";
     copyimg_wrapper.style.height = '110px';
-    
+    copyimg_wrapper.style.width = '110px';
+    copyimg_wrapper.style.left = (e.clientX - canvas.getBoundingClientRect().left - 55) +"px";
+    copyimg_wrapper.style.top = (e.clientY - canvas.getBoundingClientRect().top - 55) +"px";
+
     copyimg_wrapper.ondragstart = function() {return false}
 
     copyimg_wrapper.appendChild(copyimg);
     e.target.appendChild(copyimg_wrapper);
     
-    let canvas = document.getElementsByClassName("canvas")[0];
     canvas.addEventListener("touchstart", dragStart, false);
     canvas.addEventListener("touchend", dragEnd, false);
     canvas.addEventListener("touchmove", dragItem, false);
@@ -100,21 +100,28 @@ var active = false;
 
 function dragStart(e) {
     if (e.target !== e.currentTarget) {
+        activeItem = e.target;
+        // console.dir(e.target)
+
+        if (activeItem.tagName === "IMG") {
+            activeItem = activeItem.parentElement;
+        }
+        if (activeItem.className.includes('resizable') && !activeItem.className.includes('unresizable')) {
+            return;
+        }
+
         active = true;
 
-        activeItem = e.target;
-        console.dir(e.target)
-
         if (activeItem !== null) {
-            if (!activeItem.xOffset) {activeItem.xOffset = 0}
-            if (!activeItem.yOffset) {activeItem.yOffset = 0}
             if (e.type === "touchstart") {
-                activeItem.initialX = e.touches[0].clientX - activeItem.xOffset;
-                activeItem.initialY = e.touches[0].clientY - activeItem.yOffset;
+                activeItem.initialX = e.touches[0].clientX;
+                activeItem.initialY = e.touches[0].clientY;
             } else {
-                activeItem.initialX = e.clientX - activeItem.xOffset;
-                activeItem.initialY = e.clientY - activeItem.yOffset;
+                activeItem.initialX = e.clientX;
+                activeItem.initialY = e.clientY;
             }
+            activeItem.initialLeft = parseInt(activeItem.style.left.replace("px", ""));
+            activeItem.initialTop = parseInt(activeItem.style.top.replace("px", ""));
         }
     }
 }
@@ -132,21 +139,19 @@ function dragItem(e) {
     if (active) {
         if (e.type === "touchmove") {
             e.preventDefault();
-            activeItem.currentX = e.touches[0].clientX - activeItem.initialX;
-            activeItem.currentY = e.touches[0].clientY - activeItem.initialY;
+            activeItem.currentX = e.touches[0].clientX;
+            activeItem.currentY = e.touches[0].clientY;
         } else {
-            activeItem.currentX = e.clientX - activeItem.initialX;
-            activeItem.currentY = e.clientY - activeItem.initialY;
+            activeItem.currentX = e.clientX;
+            activeItem.currentY = e.clientY;
         }
-        activeItem.xOffset = activeItem.currentX;
-        activeItem.yOffset = activeItem.currentY;
 
-        setTranslate(activeItem.currentX, activeItem.currentY, activeItem);
+        const newLeft = activeItem.initialLeft + (activeItem.currentX - activeItem.initialX);
+        const newTop = activeItem.initialTop + (activeItem.currentY - activeItem.initialY);
+
+        activeItem.style.left = `${newLeft}px`;
+        activeItem.style.top = `${newTop}px`;
     }
-}
-
-function setTranslate(xPos, yPos, el) {
-    el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
 }
 
 function renew() {
