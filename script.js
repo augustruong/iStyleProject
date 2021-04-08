@@ -166,3 +166,4 @@ search_box.forEach((elm) => {
         elm.previousElementSibling.value = '';
 	});
 });
+
