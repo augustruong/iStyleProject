@@ -304,7 +304,18 @@ img:-moz-drag-over{
 	}
 }
 
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
 .floating {
     transform: translatey(0px);
 	animation: float 6s ease-in-out infinite;
 }
+
+.spinning {
+    -webkit-animation:spin 6s linear infinite;
+    -moz-animation:spin 6s linear infinite;
+    animation:spin 6s linear infinite;
+}
+
