@@ -120,13 +120,13 @@ button:hover {cursor: pointer;}
     width: 85px;
     height: 30px;
     padding: 0 15px 0 35px;
-    background: url("icons-assets/tick.svg") no-repeat 15px 50%;
+    background: url("assets/tick.svg") no-repeat 15px 50%;
 }
 
 #btn_start {
     width: 130px;
     height: 44px;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 2px 2px rgba(255, 245, 4, 0.34);
 }
 
 #btn_back, #btn_renew, #btn_undo, #btn_redo, #btn_search, #btn_love, #btn_plus {
@@ -137,36 +137,36 @@ button:hover {cursor: pointer;}
 }
 
 #btn_back {
-    background: url(icons-assets/fi_arrow-left.svg) no-repeat center center;
+    background: url(assets/fi_arrow-left.svg) no-repeat center center;
     position: absolute;
 }
 
 #btn_renew {
-    background: url(icons-assets/fi_rotate-cw.svg) no-repeat center center;
+    background: url(assets/fi_rotate-cw.svg) no-repeat center center;
 }
 
 #btn_undo {
-    background: url(icons-assets/fi_corner-up-left.svg) no-repeat center center;
+    background: url(assets/fi_corner-up-left.svg) no-repeat center center;
 }
 
 #btn_redo {
-    background: url(icons-assets/fi_corner-up-right.svg) no-repeat center center;
+    background: url(assets/fi_corner-up-right.svg) no-repeat center center;
 }
 
 #btn_search {
-    background: url(icons-assets/fi_search.svg) no-repeat center center;
+    background: url(assets/fi_search.svg) no-repeat center center;
 }
 
 #btn_love {
-    background: url(icons-assets/heart.svg) no-repeat center center;
+    background: url(assets/heart.svg) no-repeat center center;
 }
 
 #btn_plus {
-    background: url(icons-assets/fi_plus-circle.svg) no-repeat center center;
+    background: url(assets/fi_plus-circle.svg) no-repeat center center;
 }
 
 #btn_delete {
-    background: url(icons-assets/cross.svg)
+    background: url(assets/cross.svg)
 }
 
 .category_wrapper, .item_wrapper {
@@ -287,10 +287,7 @@ img:-moz-drag-over{
     transition: top 300ms ease-out, right 300ms ease-out, opacity 300ms ease-out;
 }
   
-.highlight {
-    background: linear-gradient(to bottom, transparent 60%, #FFEDCB) center center/0% 75% no-repeat;
-    background-size: 100% 100%;
-}
+
 
 @keyframes float {
 	0% {
@@ -309,7 +306,6 @@ img:-moz-drag-over{
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
 .floating {
-    transform: translatey(0px);
 	animation: float 6s ease-in-out infinite;
 }
 
@@ -319,3 +315,16 @@ img:-moz-drag-over{
     animation:spin 6s linear infinite;
 }
 
+.highlight {
+    background: linear-gradient(to bottom, transparent 60%, #FFEDCB) center center/0% 75% no-repeat;
+    background-size: 100% 100%;
+}
+
+.menu_tab {
+    transition: background-size .4s ease;
+    background: linear-gradient(to bottom, transparent 60%, #FFC398 ) center center/0% 75% no-repeat;
+    padding: 0 5px 0 5px;
+}
+
+.menu_tab:hover {background-size: 100% 100%;}
+.menu_tab:active {background-size: 75% 100%;}

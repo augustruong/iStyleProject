@@ -10,7 +10,7 @@ function renderTitle(category_name) {
     title_wrapper.innerHTML = 
     `
     <button id="btn_back" onclick="closeCategory(event)"></button>
-    <div class="title" style="font-size: 18px; padding-left: 30px">${category_name}</div>
+    <div class="boldtitle" style="font-size: 18px; padding-left: 30px">${category_name}</div>
     `
 }
 
@@ -22,7 +22,7 @@ function renderItem() {
     <div class="item">
         <img class="item_thumb" id="802232913" alt="basic_black_cardigan" draggable="true" ondragstart="dragTransfer(event)" 
              src="images/cardigan/802232913.png">
-        <div class="title">Basic Black</div>
+        <div class="boldtitle">Basic Black</div>
     </div>
     `   
 }
