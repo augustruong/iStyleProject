@@ -17,7 +17,8 @@
     <div class="navbar flex-btw-center">
         <a href="index.html"><img class="logo" src="assets/iStyle.svg"></a>
         <div class="navbar_right flex-btw-center">
-            <ul class="flex-btw-center" style="width: 100px;">
+            <div class="page_title" style="margin-right: 50px;">MY CLOSET</div>
+            <ul class="flex-btw-center" style="width: 120px;">
                 <li>
                     <a href="closetPage.html"><img class="menu_tab" src="assets/closet.svg" draggable="false"></a>
                 </li>
@@ -48,11 +49,17 @@
         <div class="right_wrapper">
             <div class="tool_wrapper flex-btw-center">
                 <div class="left_tool flex-btw-center" style="margin-left: 25px;">
-                    <!-- <button id="btn_search"></button> -->
-                    <div class="search_box">
-                        <input type="text" placeholder="Search">
-                        <span></span>
-                    </div>
+                    <!-- Search bar -->
+
+                    <div class="flex-btw-center">
+                        <button id="btn_search" onclick="openSearchInput()" style="margin-right: 10px;"></button>
+                        <div id="input_wrapper" class="flex-btw-center slide-in" style="display: none;">
+                            <input type=search id="search_input" placeholder="Search for clothes">
+                            <button class="btn_close" onclick="closeSearchInput()" ></button>
+                        </div>
+                        
+                    </div> 
+
                 </div>
                 
                 <div class="category_title" style="display: none; padding-right:50px"> </div>
@@ -64,8 +71,8 @@
             <div class="category_container">
                 <div class="category_wrapper">
                     <div class="category" name="cardigan" onclick="openCategory(event,'Cardigan')">
-                            <img class="category_thumb" alt="cardigan" src="images/cardigan/1121788724.png" draggable="false">
-                            <div class="boldtitle">Cardigan</div>
+                        <img class="category_thumb" alt="cardigan" src="images/cardigan/1121788724.png" draggable="false">
+                        <div class="boldtitle">Cardigan</div>
                     </div>
                     <div class="category" name="coat">
                         <img class="category_thumb" alt="coat" src="images/coat/1101419772.png" draggable="false">
@@ -127,7 +134,6 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>
 

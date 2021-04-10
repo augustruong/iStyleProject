@@ -44,10 +44,20 @@ function drop(e) {
 
     var item_id = e.dataTransfer.getData("item_id");
     var original = document.getElementById(item_id);
-    var copyimg = document.createElement("img");
     var copyimg_wrapper = document.createElement("div");
+    var copyimg = document.createElement("img");
+    var btn_delete = document.createElement("button");
     let canvas = document.getElementsByClassName("canvas")[0];
 
+    //Delete Button
+    btn_delete.classList.add("btn_close")
+    btn_delete.style.position = "absolute"
+    btn_delete.style.right = 0
+    btn_delete.addEventListener("click", () => {
+        copyimg_wrapper.remove()
+    })
+
+    //Clone Image
     copyimg_wrapper.className = "chosen_item resizable";
     copyimg.src = original.src;
     copyimg.style.objectFit = 'contain';
@@ -58,11 +68,14 @@ function drop(e) {
     copyimg_wrapper.style.left = (e.clientX - canvas.getBoundingClientRect().left - 55) +"px";
     copyimg_wrapper.style.top = (e.clientY - canvas.getBoundingClientRect().top - 55) +"px";
 
-    copyimg_wrapper.ondragstart = function() {return false}
-
+    copyimg_wrapper.appendChild(btn_delete);
     copyimg_wrapper.appendChild(copyimg);
     e.target.appendChild(copyimg_wrapper);
-    
+
+
+    //Moving 
+    copyimg_wrapper.ondragstart = function() {return false}
+
     canvas.addEventListener("touchstart", dragStart, false);
     canvas.addEventListener("touchend", dragEnd, false);
     canvas.addEventListener("touchmove", dragItem, false);
@@ -71,14 +84,22 @@ function drop(e) {
     canvas.addEventListener("mouseup", dragEnd, false);
     canvas.addEventListener("mousemove", dragItem, false);
 
+    //Resize
     canvas.addEventListener("click", (e) => {
         let targetElement = e.target; // clicked element
 
         do {
             // if click inside
             if (targetElement == copyimg_wrapper) { 
+                if (copyimg_wrapper.classList.contains("resizable")) {
+                    copyimg_wrapper.classList.remove("resizable");
+                    copyimg_wrapper.classList.add("unresizable");
+                    btn_delete.style.display = "none"
+                    return;
+                }
                 copyimg_wrapper.classList.remove("unresizable");
                 copyimg_wrapper.classList.add("resizable");
+                btn_delete.style.display = "block"
                 return;
             }
             //go up the DOM
@@ -88,6 +109,7 @@ function drop(e) {
         //click outside
         copyimg_wrapper.classList.remove("resizable");
         copyimg_wrapper.classList.add("unresizable");
+        btn_delete.style.display = "none"
     })
 
 }
@@ -99,7 +121,6 @@ var active = false;
 function dragStart(e) {
     if (e.target !== e.currentTarget) {
         activeItem = e.target;
-        // console.dir(e.target)
 
         if (activeItem.tagName === "IMG") {
             activeItem = activeItem.parentElement;
@@ -158,12 +179,35 @@ function renew() {
 }
 
 
-var search_box = document.querySelectorAll('.search_box input[type="text"] + span');
+// var search_box = document.querySelectorAll('.search_box input[type="text"] + span');
 
-search_box.forEach((elm) => {
-	elm.addEventListener('click', () => {
-        console.log("click")
-        elm.previousElementSibling.value = '';
-	});
-});
+// search_box.forEach((elm) => {
+// 	elm.addEventListener('click', () => {
+//         console.log("click")
+//         elm.previousElementSibling.value = '';
+// 	});
+// });
 
+var btn_search = document.getElementById("btn_search");
+
+btn_search.addEventListener("click",() => {
+    document.getElementById("search_input").style.display = "block"; 
+})
+
+
+// function openSearchInput() {
+//     var input_wrapper = document.getElementById("input_wrapper")
+//     var isOpen = input_wrapper.classList.contains('slide-in');
+
+//     //input_wrapper.setAttribute('class', isOpen ? 'slide-out' : 'slide-in');
+//     input_wrapper.style.display = "flex"; 
+//     document.getElementById("btn_search").disabled = true;
+
+    
+// }
+
+// function closeSearchInput() {
+//     document.getElementById("input_wrapper").style.display = "none";
+//     document.getElementById("btn_search").disabled = false;
+    
+// }
