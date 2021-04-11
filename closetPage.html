@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href='https://fonts.googleapis.com/css?family=Yeseva One' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600&display=swap" rel="stylesheet">
-    <script src="script.js"></script>
 </head>
 
 <body>
@@ -32,7 +31,7 @@
     <div class="body_container">
         <div class="left_wrapper" style="margin-right: 30px;">
             <div class="tool_wrapper flex-btw-center">
-                <div class="left_tool flex-btw-center">
+                <div class="left_tool flex-btw-center" style="width: 100px;">
                     <button id="btn_renew" onclick="renew()"></button>
                     <button id="btn_undo"></button>
                     <button id="btn_redo"></button>
@@ -52,17 +51,17 @@
                     <!-- Search bar -->
 
                     <div class="flex-btw-center">
-                        <button id="btn_search" onclick="openSearchInput()" style="margin-right: 10px;"></button>
-                        <div id="input_wrapper" class="flex-btw-center slide-in" style="display: none;">
-                            <input type=search id="search_input" placeholder="Search for clothes">
-                            <button class="btn_close" onclick="closeSearchInput()" ></button>
+                        <button id="btn_search" style="margin-right: 10px;"></button>
+                        <div id="input_wrapper" class="flex-btw-center slide-in" style="display: none; margin-right: 100px;">
+                            <input type="text" id="search_input" placeholder="Search for clothes" autofocus>
+                            <button class="btn_close"></button>
                         </div>
                         
                     </div> 
 
                 </div>
                 
-                <div class="category_title" style="display: none; padding-right:50px"> </div>
+                <div class="category_title" style="display: none;"> </div>
                 <div class="right_tool flex-btw-center" style="width: 65px; margin-right: 25px;">
                     <button id="btn_love"></button>
                     <button id="btn_plus"></button>
@@ -134,6 +133,8 @@
             </div>
         </div>
     </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
 

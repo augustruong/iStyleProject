@@ -92,11 +92,6 @@ li{
     padding-top: 10px;
 }
 
-
-.left_tool {
-    width: 100px;
-}
-
 .category_container, .canvas{
     width: 535px;
     height: 535px;
@@ -184,8 +179,8 @@ input {
     border: none;
     border-bottom: 1px #262626;
     background-color: transparent;
-    width: 125px;
-    
+    width: 110px;
+    margin-right: 15px;
 }
 
 .slide-in {

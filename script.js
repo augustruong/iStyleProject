@@ -63,8 +63,8 @@ function drop(e) {
     copyimg.style.objectFit = 'contain';
 
     copyimg_wrapper.style.position = "absolute";
-    copyimg_wrapper.style.height = '110px';
-    copyimg_wrapper.style.width = '110px';
+    copyimg_wrapper.style.height = '200px';
+    copyimg_wrapper.style.width = '200px';
     copyimg_wrapper.style.left = (e.clientX - canvas.getBoundingClientRect().left - 55) +"px";
     copyimg_wrapper.style.top = (e.clientY - canvas.getBoundingClientRect().top - 55) +"px";
 
@@ -178,36 +178,31 @@ function renew() {
     canvas.innerHTML = ''
 }
 
-
-// var search_box = document.querySelectorAll('.search_box input[type="text"] + span');
-
-// search_box.forEach((elm) => {
-// 	elm.addEventListener('click', () => {
-//         console.log("click")
-//         elm.previousElementSibling.value = '';
-// 	});
-// });
-
 var btn_search = document.getElementById("btn_search");
+var btn_close = document.getElementsByClassName("btn_close");
+var input_wrapper = document.getElementById("input_wrapper")
+var search_input = document.getElementById("search_input")
+
 
 btn_search.addEventListener("click",() => {
-    document.getElementById("search_input").style.display = "block"; 
+    var isOpen = input_wrapper.classList.contains('slide-in');
+    
+    //input_wrapper.setAttribute('class', isOpen ? 'slide-out' : 'slide-in');
+    
+    input_wrapper.style.display = "flex"; 
+    search_input.focus();
+    btn_search.disabled = true;
+
+    window.onload = function() {
+        var category_title = document.getElementsByClassName("category_title")
+        console.log(category_title);
+        category_title.style.padding = "0 0 0 150px";
+    }
+    
 })
 
-
-// function openSearchInput() {
-//     var input_wrapper = document.getElementById("input_wrapper")
-//     var isOpen = input_wrapper.classList.contains('slide-in');
-
-//     //input_wrapper.setAttribute('class', isOpen ? 'slide-out' : 'slide-in');
-//     input_wrapper.style.display = "flex"; 
-//     document.getElementById("btn_search").disabled = true;
-
-    
-// }
-
-// function closeSearchInput() {
-//     document.getElementById("input_wrapper").style.display = "none";
-//     document.getElementById("btn_search").disabled = false;
-    
-// }
+btn_close[0].addEventListener("click",() => {
+    input_wrapper.style.display = "none";
+    search_input.value = '';
+    btn_search.disabled = false;
+})
