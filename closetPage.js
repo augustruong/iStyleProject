@@ -1,36 +1,50 @@
-function openCategory(e,category_name) {
-    document.querySelector('.category_wrapper').style.display = "none"
-    renderTitle(category_name);
-    renderItem();
-}
-
-function renderTitle(category_name) {
-    let title_wrapper = document.querySelector('.category_title')
-    title_wrapper.style.display = "block"
-    title_wrapper.innerHTML = 
-    `
-    <button id="btn_back" onclick="closeCategory(event)"></button>
-    <div class="boldtitle" style="font-size: 18px; padding-left: 30px">${category_name}</div>
-    `
-}
-
-function renderItem() {
-    let item_wrapper = document.querySelector('.item_wrapper')
+function renderItem(doc,category_name) {
+    let item_wrapper = document.querySelector(`.${category_name}_wrapper`)
     item_wrapper.style.display = "block"
-    item_wrapper.innerHTML =
+
+    item_wrapper.innerHTML +=
     `
     <div class="item">
-        <img class="item_thumb" id="802232913" alt="basic_black_cardigan" draggable="true" ondragstart="dragTransfer(event)" 
-             src="images/cardigan/802232913.png">
-        <div class="boldtitle">Basic Black</div>
+        <img class="item_thumb" data-tilt data-tilt-scale="1.05"
+             id="${doc.id}" draggable="true" ondragstart="dragTransfer(event)" 
+             src="images/${category_name}/${doc.id}.png">
+        <div class="boldtitle">${doc.data().price}</div>
     </div>
     `   
 }
 
-function closeCategory(e) {
-    document.querySelector('.category_title').style.display = "none"
+//Get data
+    db.collection("cardigan").get()
+    .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+            renderItem(doc,"cardigan")
+        });
+    });
+
+    db.collection("coat").get()
+    .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+            renderItem(doc,"coat")
+        });
+    });
+
+function openCategory(category_name) {
+    document.querySelector('.category_wrapper').style.display = "none"
+    document.querySelector(`.${category_name}_wrapper`).style.display = "block"
+    document.querySelector('.category_title').style.display = "block"
+    
+    //Show title
+    document.querySelector('.category_title').innerHTML = 
+    `
+    <button id="btn_back" onclick="closeCategory('${category_name}')"></button>
+    <div class="boldtitle" style="font-size: 18px; padding-left: 30px">${category_name}</div>
+    `
+}
+
+function closeCategory(category_name) {
     document.querySelector('.category_wrapper').style.display = "block"
-    document.querySelector('.item_wrapper').style.display = "none"
+    document.querySelector('.category_title').style.display = "none"
+    document.querySelector(`.${category_name}_wrapper`).style.display = "none"
 }
                
 function allowDrop(e) {e.preventDefault();}
@@ -183,13 +197,11 @@ var btn_close = document.getElementsByClassName("btn_close");
 var input_wrapper = document.getElementById("input_wrapper")
 var search_input = document.getElementById("search_input")
 
-
-btn_search.addEventListener("click",() => {
-    var isOpen = input_wrapper.classList.contains('slide-in');
-    
-    //input_wrapper.setAttribute('class', isOpen ? 'slide-out' : 'slide-in');
-    
+btn_search.addEventListener("click",() => {    
     input_wrapper.style.display = "flex"; 
+    input_wrapper.classList.add('slide-in');
+    input_wrapper.classList.remove('slide-out');
+    
     search_input.focus();
     btn_search.disabled = true;
 
@@ -202,7 +214,17 @@ btn_search.addEventListener("click",() => {
 })
 
 btn_close[0].addEventListener("click",() => {
+    input_wrapper.classList.add('slide-out');
+    input_wrapper.classList.remove('slide-in');
     input_wrapper.style.display = "none";
     search_input.value = '';
     btn_search.disabled = false;
 })
+
+// document.querySelector('#btn_save').addEventListener('click', () => {
+//     html2canvas(document.querySelector('.canvas'), {
+//         onrendered: function(canvas) {
+//           return Canvas2Image.saveAsPNG(canvas);
+//         }
+//     });
+// })
