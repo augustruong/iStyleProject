@@ -38,7 +38,7 @@
                 </div>
                 <div class="middle_tool subtitle">outfit</div>
                 <div class="right_tool">
-                    <button id="btn_save" class="boldtitle">Save</button>
+                    <button id="btn_save" class="boldtitle" onclick="saveImage()">Save</button>
                 </div>
             </div>
             <div class="canvas" style="position: relative;" ondrop="drop(event)" ondragover="allowDrop(event)">
@@ -66,7 +66,7 @@
                 <div class="category_title" style="display: none;"> </div>
 
                 <div class="right_tool flex-btw-center" style="width: 65px; margin-right: 25px;">
-                    <button class="btn_love" onclick="openLoveList()"></button>
+                    <button id="btn_love_list" onclick="openLoveList()"></button>
                     <button id="btn_plus"></button>
                 </div>
             </div>
@@ -225,6 +225,9 @@
         timestampsInSnapshots: true,
       });
     </script>
+
+    <script src="html2canvas.js"></script>
+    <script src="canvas2image.js"></script>
 
     <script src="closetPage.js"></script>
     <script type="text/javascript" src="vanilla-tilt.js"></script>

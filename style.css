@@ -147,7 +147,7 @@ button:hover {cursor: pointer;}
     box-shadow: 0px 2px 2px rgba(255, 245, 4, 0.34);
 }
 
-#btn_back, #btn_renew, #btn_undo, #btn_redo, #btn_search, #btn_plus, .btn_love,.btn_cart {
+#btn_back, #btn_renew, #btn_undo, #btn_redo, #btn_search, #btn_plus, #btn_love_list {
     width: 24px;
     height: 24px;
     border: none;
@@ -175,11 +175,48 @@ button:hover {cursor: pointer;}
     background: url(assets/fi_search.svg) no-repeat center center;
 }
 
-.btn_love {
+#btn_love_list{
     background: url(assets/heart.svg) no-repeat center center;
 }
 
-.btn_love:hover {
+.btn_link, .btn_link:hover {
+    width: 20px;
+    height: 20px;
+    border: none;
+}
+
+.btn_link {
+    background: url(assets/ex_link.svg) no-repeat center center;
+}
+
+.btn_link:hover{
+    background: url(assets/ex_link_hover.svg) no-repeat center center;
+} 
+
+.btn_love, .btn_loved {
+    font-family: "Font Awesome 5 Duotone";
+    font-style: normal;
+}
+
+.btn_love::before {
+    font-size: 20px;
+    position: absolute;
+    content: "\f4c7"; 
+    color:#b4b4b4;
+}
+
+.btn_love::after, .btn_loved::after {
+    font-size: 20px;
+    content: "\10f4c7"; 
+    color:white;
+    opacity: 0.9;
+}
+
+.btn_love:hover::before, .btn_loved::before{
+    color: #ff9494;
+}
+
+.btn_love:hover, .btn_link:hover {
     cursor: pointer;
 }
 
@@ -194,11 +231,6 @@ button:hover {cursor: pointer;}
     border: none;
     background-color: transparent;
 }
-
-.btn_cart {
-    background: url();
-}
-
 
 #input_wrapper {
     box-shadow: 0px 1px #262626;
@@ -262,7 +294,7 @@ input {
     object-fit: contain;
 }
 
-.category_thumb:hover, .item_thumb:hover {
+.category_thumb:hover, .item:hover img{
     filter: drop-shadow(3px 3px 1px rgba(0, 0, 0, 0.25));
     cursor: pointer;
 }
@@ -341,6 +373,7 @@ img:-moz-drag-over{
 
 .option_wrapper {
     position: absolute;
-    /* transform: translate(50%, 50%); */
-    margin: 40px 0 0 30px;
+    margin: 45px 0 0 33px;
+    width: 45px;
+    height: 20px;
 }

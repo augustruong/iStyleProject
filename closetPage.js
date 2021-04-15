@@ -7,23 +7,49 @@ var btn_close = document.getElementsByClassName("btn_close");
 var input_wrapper = document.getElementById("input_wrapper");
 var search_input = document.getElementById("search_input");
 
+var itemList = {
+  accessories : [], blouse : [], boots : [], glasses : [], shoulder_bag : [], tote_bag : [], socks : [], watches : [], 
+  cardigan : [], coat : [], jacket : [], zip_up : [], knitwears : [], long_sleeve : [], short_sleeve : [], sleeveless : [], 
+  maxi_dress : [], mini_dress : [], skirt : [], short_pants : [], pants : [], jeans : [], sneakers : []
+}; 
 var loveList = JSON.parse(localStorage.getItem("love list") || "[]");
 
-function renderItem(id,price,category_name) {
-  let item_wrapper = document.querySelector(".item_wrapper");
+async function getAllData() {
+  let collection = db.collection("items");
+  let allItems = await collection.get();
+  for (const doc of allItems.docs) {
+    itemList[doc.data().category].push(doc.id);
+  }
+}
 
+getAllData();
+
+async function renderItem(id) {
+  let thisItem = await firebase.firestore().collection('items').doc(id).get();
+  let category_name = thisItem.data().category;
+  let price = thisItem.data().price;
+
+  //Init
   let item = document.createElement("div");
   let option_wrapper = document.createElement("div");
-  let btn_love = document.createElement("button");
+  let btn_link = document.createElement("a");
+  let btn_love = document.createElement("i");
   let img = document.createElement("img");
   let price_tag = document.createElement("div");
 
   item.classList.add("item")
 
   option_wrapper.classList.add("option_wrapper")
+  option_wrapper.classList.add("flex-btw-center")
   option_wrapper.style.display = "none"
+  btn_link.classList.add("btn_link")
   btn_love.classList.add("btn_love")
+  if (loveList.includes(id)) {btn_love.classList.toggle("btn_loved")}
 
+  btn_link.href = "https://codibook.net/item/8343134";
+  btn_link.target="_blank"
+  
+  //Truyen thong so
   img.classList.add("item_thumb")
   img.id = `${id}`
   img.setAttribute("draggable",true);
@@ -33,6 +59,7 @@ function renderItem(id,price,category_name) {
   price_tag.classList.add("boldtitle");
   price_tag.textContent = `đ${price}.000`
 
+  option_wrapper.appendChild(btn_link);
   option_wrapper.appendChild(btn_love);
   item.appendChild(option_wrapper)
   item.appendChild(img)
@@ -40,35 +67,29 @@ function renderItem(id,price,category_name) {
 
   item_wrapper.appendChild(item)
 
-  img.addEventListener("mouseenter", () => {
-    option_wrapper.style.display = "block"
+  item.addEventListener("mouseenter", () => {
+    option_wrapper.style.display = "flex"
     option_wrapper.style.zIndex = 100;
   })
 
-  img.addEventListener("mouseleave", () => {
+  item.addEventListener("mouseleave", () => {
     option_wrapper.style.display = "none"
   })
 
   btn_love.addEventListener("click", () => {
-    console.log("love")
-    let id = img.id;
-    let loveItem = {id, price, category_name};
-    loveList.push(loveItem)
-    localStorage.setItem('love list', JSON.stringify(loveList));
+    btn_love.classList.toggle("btn_loved")
+    let loveItem = id;
+
+    if (btn_love.classList.contains("btn_loved")) {
+      loveList.push(loveItem)
+      localStorage.setItem('love list', JSON.stringify(loveList));
+    }
+    else {
+      loveList = loveList.filter(loveItem => loveItem !== id)
+      localStorage.setItem('love list', JSON.stringify(loveList));
+    }
+    
   })
-
-
-  // item_wrapper.innerHTML += `
-  //   <div class="item">
-  //       <div class="option_wrapper" style="display:none;">
-  //           <button class="btn_love"></button>
-  //       </div>
-  //       <img class="item_thumb" data-tilt data-tilt-scale="1.05"
-  //            id="${doc.id}" draggable="true" ondragstart="dragTransfer(event)" 
-  //            src="images/${category_name}/${doc.id}.png">
-  //       <div class="boldtitle">đ${doc.data().price}.000</div>
-  //   </div>
-  //   `;
     
 }
 
@@ -84,13 +105,11 @@ function openCategory(category_name) {
     `;
 
   item_wrapper.innerHTML = "";
-  db.collection(`${category_name}`)
-    .get()
-    .then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        renderItem(doc.id, doc.data().price, `${category_name}`);
-      });
-    });
+
+  let theList = itemList[category_name];
+  theList.forEach((id) => {
+    renderItem(id);
+  })
 }
 
 function closeCategory() {
@@ -111,7 +130,7 @@ function openLoveList() {
     `;
 
   item_wrapper.innerHTML = "";
-  loveList.forEach(doc => renderItem(doc.id,doc.price,doc.category_name));
+  loveList.forEach(doc => renderItem(doc));
 }
 
 form.addEventListener("submit", async (e) => {
@@ -122,18 +141,15 @@ form.addEventListener("submit", async (e) => {
   item_wrapper.style.display = "block";
   item_wrapper.innerHTML = "";
 
-  for (let i = 0; i < 23; ++i) {
-    let category_name = category_wrapper.children[i].id;
+  let collection = db.collection("items");
+  let allItems = await collection.get();
 
-    let collection = db.collection(`${category_name}`);
-    let allItems = await collection.get();
-    for (const doc of allItems.docs) {
-      if (doc.data().color === form[0].value) {
-        renderItem(doc.id,doc.data().price,category_name);
-      }
+  for (const doc of allItems.docs) {
+    if (doc.data().color === form[0].value) {
+      renderItem(doc.id);
     }
   }
-
+  console.dir(item_wrapper);
   console.log(`Found ${item_wrapper.childElementCount} items`);
   //if (!item_wrapper.childElementCount) {console.log("No items found")}
 });
@@ -313,3 +329,11 @@ btn_close[0].addEventListener("click", () => {
   btn_search.disabled = false;
   closeCategory();
 });
+
+function saveImage() {
+  html2canvas(document.querySelector('.canvas'), {
+    onrendered: function(canvas) {
+      return Canvas2Image.saveAsPNG(canvas,1000,1000);
+    }
+});
+}
