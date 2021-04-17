@@ -225,9 +225,8 @@ function drop(event) {
 
   //Resize
   copyimg_wrapper.addEventListener("click", (e) => {
+    e.stopPropagation();
     let targetElement = e.target; // clicked element
-
-    //console.dir(targetElement);
 
     do {
       // if click inside
@@ -363,13 +362,58 @@ canvas.addEventListener("mouseup", dragEnd, false);
 canvas.addEventListener("mousemove", dragItem, false);
 
 canvas.addEventListener("click", (e) => {
+  let targetElement = e.target; // clicked element
+  // if (targetElement.tagName == "IMG") {targetElement = targetElement.parentElement;}
+  // console.dir(targetElement)
+
   let chosen_item = document.getElementsByClassName("chosen_item");
-  console.dir(chosen_item);
   for (let i = 0; i < chosen_item.length; ++i) {
-    chosen_item[i].classList.remove("resizable");
-    chosen_item[i].classList.add("unresizable");
-    chosen_item[i].children[0].style.display = "none";
-    //btn_delete.style.display = "none";
-  }   
-  
+    let copyimg_wrapper = chosen_item[i];
+    let btn_delete = copyimg_wrapper.children[0]
+
+    copyimg_wrapper.classList.remove("resizable");
+    copyimg_wrapper.classList.add("unresizable");
+    btn_delete.style.display = "none";
+  }
 });
+
+let chosen_item = document.getElementsByClassName("chosen_item");
+console.dir(chosen_item)
+
+for (let i = 0; i < chosen_item.length; ++i) { 
+  console.dir(chosen_item[i])
+  let copyimg_wrapper = chosen_item[i];
+  let btn_delete = copyimg_wrapper.children[0];
+
+  
+
+  copyimg_wrapper.addEventListener("click", (e) => {
+    e.stopPropagation();
+    let targetElement = e.target; // clicked element
+    if (targetElement.tagName == "IMG") {targetElement = targetElement.parentElement;}
+    console.dir(targetElement)
+    
+    do {
+      // if click inside
+      if (targetElement == copyimg_wrapper) {
+        if (copyimg_wrapper.classList.contains("resizable")) {
+          copyimg_wrapper.classList.remove("resizable");
+          copyimg_wrapper.classList.add("unresizable");
+          btn_delete.style.display = "none";
+          return;
+        }
+        copyimg_wrapper.classList.remove("unresizable");
+        copyimg_wrapper.classList.add("resizable");
+        btn_delete.style.display = "block";
+        return;
+      }
+      //go up the DOM
+      targetElement = targetElement.parentNode;
+    } while (targetElement);
+
+    //click outside
+    // copyimg_wrapper.classList.remove("resizable");
+    // copyimg_wrapper.classList.add("unresizable");
+    // btn_delete.style.display = "none";
+  });
+}
