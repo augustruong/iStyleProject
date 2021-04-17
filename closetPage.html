@@ -1,198 +1,424 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://pro.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href='https://fonts.googleapis.com/css?family=Yeseva One' rel='stylesheet'>
-    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600&display=swap" rel="stylesheet">
-</head>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://pro.fontawesome.com/releases/v5.12.0/css/all.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Yeseva One"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.slim.js"
+      integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY="
+      crossorigin="anonymous"
+    ></script>
+  </head>
 
-<body>
+  <body>
     <div class="navbar flex-btw-center">
-        <a href="index.html"><img class="logo" src="assets/iStyle.svg"></a>
-        <div class="navbar_right flex-btw-center">
-            <div class="page_title" style="margin-right: 50px;">MY CLOSET</div>
-            <ul class="flex-btw-center" style="width: 120px;">
-                <li>
-                    <a href="closetPage.html"><img class="menu_tab" src="assets/closet.svg" draggable="false"></a>
-                </li>
-                <li>
-                    <a href="#"><img class="menu_tab" src="assets/u_user.svg" draggable="false"></a>
-                </li>
-            </ul>
-        </div>
+      <a href="index.html"><img class="logo" src="assets/iStyle.svg" /></a>
+      <div class="navbar_right flex-btw-center">
+        <div class="page_title" style="margin-right: 50px">MY CLOSET</div>
+        <ul class="flex-btw-center" style="width: 120px">
+          <li>
+            <a href="closetPage.html"
+              ><img class="menu_tab" src="assets/closet.svg" draggable="false"
+            /></a>
+          </li>
+          <li>
+            <a href="myPage.html"
+              ><img class="menu_tab" src="assets/u_user.svg" draggable="false"
+            /></a>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <div class="body_container">
-        <div class="left_wrapper" style="margin-right: 30px;">
-            <div class="tool_wrapper flex-btw-center">
-                <div class="left_tool flex-btw-center" style="width: 100px;">
-                    <button id="btn_renew" onclick="renew()"></button>
-                    <button id="btn_undo"></button>
-                    <button id="btn_redo"></button>
-                </div>
-                <div class="middle_tool subtitle">outfit</div>
-                <div class="right_tool">
-                    <button id="btn_save" class="boldtitle" onclick="saveImage()">Save</button>
-                </div>
-            </div>
-            <div class="canvas" style="position: relative;" ondrop="drop(event)" ondragover="allowDrop(event)">
-            </div>
-            
+      <div class="left_wrapper" style="margin-right: 30px">
+        <div class="tool_wrapper flex-btw-center">
+          <div class="left_tool flex-btw-center" style="width: 100px">
+            <button id="btn_renew" onclick="renew()"></button>
+            <button id="btn_undo"></button>
+            <button id="btn_redo"></button>
+          </div>
+          <div class="middle_tool subtitle">outfit</div>
+          <div class="right_tool">
+            <button id="btn_save" class="boldtitle" onclick="saveImage()">
+              Save
+            </button>
+          </div>
         </div>
-        <div class="right_wrapper">
-            <div class="tool_wrapper flex-btw-center">
-                <div class="left_tool flex-btw-center" style="margin-left: 25px;">
-                    <!-- Search bar -->
-                    <div class="flex-btw-center">
-                        <button id="btn_search" style="margin-right: 10px;"></button>
-                        <div id="input_wrapper" class="flex-btw-center slide-in" style="display: none; margin-right: 100px;">
-                            <form id="search_form"> 
-                                <input type="text" id="search_input" placeholder="Search by color" autofocus>
-                                
-                            </form>
-                            <button class="btn_close"></button>
-                        </div>
-                        
-                    </div> 
-
-                </div>
-                
-                <div class="category_title" style="display: none;"> </div>
-
-                <div class="right_tool flex-btw-center" style="width: 65px; margin-right: 25px;">
-                    <button id="btn_love_list" onclick="openLoveList()"></button>
-                    <button id="btn_plus"></button>
-                </div>
+        <div
+          class="canvas"
+          id="canvas"
+          style="position: relative"
+          ondrop="drop(event)"
+          ondragover="allowDrop(event)"
+        ></div>
+      </div>
+      <div class="right_wrapper">
+        <div class="tool_wrapper flex-btw-center">
+          <div class="left_tool flex-btw-center" style="margin-left: 25px">
+            <!-- Search bar -->
+            <div class="flex-btw-center">
+              <button id="btn_search" style="margin-right: 10px"></button>
+              <div
+                id="input_wrapper"
+                class="flex-btw-center slide-in"
+                style="display: none; margin-right: 100px"
+              >
+                <form id="search_form">
+                  <input
+                    type="text"
+                    id="search_input"
+                    placeholder="Search by color"
+                    autofocus
+                  />
+                </form>
+                <button class="btn_close"></button>
+              </div>
             </div>
-            <div class="category_container">
-                <div class="category_wrapper">
-                    <div class="category" id="cardigan" onclick="openCategory('cardigan')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/cardigan/1121788724.png" draggable="false">
-                        <div class="boldtitle">Cardigan</div>
-                    </div>
-                    <div class="category" id="coat" onclick="openCategory('coat')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/coat/1101419772.png" draggable="false">
-                        <div class="boldtitle">Coat</div>
-                    </div>
-                    <div class="category" id="jacket" onclick="openCategory('jacket')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/jacket/601519940.png" draggable="false">
-                        <div class="boldtitle">Jacket</div>
-                    </div>
-                    <div class="category" id="zip_up" onclick="openCategory('zip_up')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/zip_up/790474347.png" draggable="false">
-                       <div class="boldtitle">Zip Up</div>
-                    </div>
-                    <div class="category" id="knitwears" onclick="openCategory('knitwears')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/knitwears/1400949761.png" draggable="false">
-                        <div class="boldtitle">Knitwears</div>
-                    </div>
-                    <div class="category" id="long_sleeve" onclick="openCategory('long_sleeve')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/long_sleeve/1112643766.png" draggable="false">
-                        <div class="boldtitle">Long Sleeve</div>
-                    </div>
-                    <div class="category" id="short_sleeve" onclick="openCategory('short_sleeve')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/short_sleeve/1006784549.png" draggable="false">
-                        <div class="boldtitle">Short Sleeve</div>
-                    </div>
-                    <div class="category" id="sleeveless" onclick="openCategory('sleeveless')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/sleeveless/501791617.png" draggable="false">
-                        <div class="boldtitle">Sleeveless</div>
-                    </div>
-                    <div class="category" id="blouse" onclick="openCategory('blouse')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/blouse/1804351611.png" draggable="false">
-                        <div class="boldtitle">Blouse</div>
-                    </div>
-                    <div class="category" id="maxi_dress" onclick="openCategory('maxi_dress')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/maxi_dress/407211859.png" draggable="false">
-                        <div class="boldtitle">Maxi Dress</div>
-                    </div>
-                    <div class="category" id="mini_dress" onclick="openCategory('mini_dress')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/mini_dress/957541860.png" draggable="false">
-                        <div class="boldtitle">Mini Dress</div>
-                    </div>
-                    <div class="category" id="skirt" onclick="openCategory('skirt')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/skirt/2094833932.png" draggable="false">
-                        <div class="boldtitle">Skirt</div>
-                    </div>
-                    <div class="category" id="pants" onclick="openCategory('pants')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/pants/762677084.png" draggable="false">
-                        <div class="boldtitle">Pants</div>
-                    </div>
-                    <div class="category" id="jeans" onclick="openCategory('jeans')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/jeans/254051164.png" draggable="false">
-                        <div class="boldtitle">Jeans</div>
-                    </div>
-                    <div class="category" id="short_pants" onclick="openCategory('short_pants')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/short_pants/272898672.png" draggable="false">
-                        <div class="boldtitle">Short Pants</div>
-                    </div>
-                    <div class="category" id="sneakers" onclick="openCategory('sneakers')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/sneakers/1199295499.png" draggable="false">
-                        <div class="boldtitle">Sneakers</div>
-                    </div>
-                    <div class="category" id="boots" onclick="openCategory('boots')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/boots/2030908837.png" draggable="false">
-                        <div class="boldtitle">Boots</div>
-                    </div>
-                    <div class="category" id="socks" onclick="openCategory('socks')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/socks/32032192.png" draggable="false">
-                        <div class="boldtitle">Socks</div>
-                    </div>
-                    <div class="category" id="accessories" onclick="openCategory('accessories')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/accessories/985520087.png" draggable="false">
-                        <div class="boldtitle">Accessories</div>
-                    </div>
-                    <div class="category" id="watches" onclick="openCategory('watches')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/watches/1987955604.png" draggable="false">
-                        <div class="boldtitle">Watches</div>
-                    </div>
-                    <div class="category" id="glasses" onclick="openCategory('glasses')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/glasses/187679749.png" draggable="false">
-                        <div class="boldtitle">Glasses</div>
-                    </div>
-                    <div class="category" id="shoulder_bag" onclick="openCategory('shoulder_bag')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/shoulder_bag/1036610339.png" draggable="false">
-                        <div class="boldtitle">Should Bag</div>
-                    </div>
-                    <div class="category" id="tote_bag" onclick="openCategory('tote_bag')">
-                        <img class="category_thumb" data-tilt data-tilt-scale="1.05"
-                        alt="" src="images/tote_bag/416872509.png" draggable="false">
-                        <div class="boldtitle">Tote Bag</div>
-                    </div>
-                </div>
+          </div>
 
-                <div class="item_wrapper" style="display: none;"></div>  
-            </div>
-            
+          <div class="category_title" style="display: none"></div>
+
+          <div
+            class="right_tool flex-btw-center"
+            style="width: 65px; margin-right: 25px"
+          >
+            <button id="btn_love_list" onclick="openLoveList()"></button>
+            <button id="btn_plus"></button>
+          </div>
         </div>
+        <div class="category_container">
+          <div class="category_wrapper">
+            <div
+              class="category"
+              id="cardigan"
+              onclick="openCategory('cardigan')"
+            >
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/cardigan/1121788724.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Cardigan</div>
+            </div>
+            <div class="category" id="coat" onclick="openCategory('coat')">
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/coat/1101419772.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Coat</div>
+            </div>
+            <div class="category" id="jacket" onclick="openCategory('jacket')">
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/jacket/601519940.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Jacket</div>
+            </div>
+            <div class="category" id="zip_up" onclick="openCategory('zip_up')">
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/zip_up/790474347.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Zip Up</div>
+            </div>
+            <div
+              class="category"
+              id="knitwears"
+              onclick="openCategory('knitwears')"
+            >
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/knitwears/1400949761.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Knitwears</div>
+            </div>
+            <div
+              class="category"
+              id="long_sleeve"
+              onclick="openCategory('long_sleeve')"
+            >
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/long_sleeve/1112643766.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Long Sleeve</div>
+            </div>
+            <div
+              class="category"
+              id="short_sleeve"
+              onclick="openCategory('short_sleeve')"
+            >
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/short_sleeve/1006784549.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Short Sleeve</div>
+            </div>
+            <div
+              class="category"
+              id="sleeveless"
+              onclick="openCategory('sleeveless')"
+            >
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/sleeveless/501791617.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Sleeveless</div>
+            </div>
+            <div class="category" id="blouse" onclick="openCategory('blouse')">
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/blouse/1804351611.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Blouse</div>
+            </div>
+            <div
+              class="category"
+              id="maxi_dress"
+              onclick="openCategory('maxi_dress')"
+            >
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/maxi_dress/407211859.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Maxi Dress</div>
+            </div>
+            <div
+              class="category"
+              id="mini_dress"
+              onclick="openCategory('mini_dress')"
+            >
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/mini_dress/957541860.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Mini Dress</div>
+            </div>
+            <div class="category" id="skirt" onclick="openCategory('skirt')">
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/skirt/2094833932.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Skirt</div>
+            </div>
+            <div class="category" id="pants" onclick="openCategory('pants')">
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/pants/762677084.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Pants</div>
+            </div>
+            <div class="category" id="jeans" onclick="openCategory('jeans')">
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/jeans/254051164.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Jeans</div>
+            </div>
+            <div
+              class="category"
+              id="short_pants"
+              onclick="openCategory('short_pants')"
+            >
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/short_pants/272898672.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Short Pants</div>
+            </div>
+            <div
+              class="category"
+              id="sneakers"
+              onclick="openCategory('sneakers')"
+            >
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/sneakers/1199295499.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Sneakers</div>
+            </div>
+            <div class="category" id="boots" onclick="openCategory('boots')">
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/boots/2030908837.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Boots</div>
+            </div>
+            <div class="category" id="socks" onclick="openCategory('socks')">
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/socks/32032192.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Socks</div>
+            </div>
+            <div
+              class="category"
+              id="accessories"
+              onclick="openCategory('accessories')"
+            >
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/accessories/985520087.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Accessories</div>
+            </div>
+            <div
+              class="category"
+              id="watches"
+              onclick="openCategory('watches')"
+            >
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/watches/1987955604.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Watches</div>
+            </div>
+            <div
+              class="category"
+              id="glasses"
+              onclick="openCategory('glasses')"
+            >
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/glasses/187679749.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Glasses</div>
+            </div>
+            <div
+              class="category"
+              id="shoulder_bag"
+              onclick="openCategory('shoulder_bag')"
+            >
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/shoulder_bag/1036610339.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Should Bag</div>
+            </div>
+            <div
+              class="category"
+              id="tote_bag"
+              onclick="openCategory('tote_bag')"
+            >
+              <img
+                class="category_thumb"
+                data-tilt
+                data-tilt-scale="1.05"
+                alt=""
+                src="images/tote_bag/416872509.png"
+                draggable="false"
+              />
+              <div class="boldtitle">Tote Bag</div>
+            </div>
+          </div>
+
+          <div class="item_wrapper" style="display: none"></div>
+        </div>
+      </div>
     </div>
 
     <div class="footer">Created by Hoang Thu :)</div>
@@ -231,7 +457,27 @@
 
     <script src="closetPage.js"></script>
     <script type="text/javascript" src="vanilla-tilt.js"></script>
-</body>
+    <script>
+      document.getElementById("canvas").innerHTML = localStorage.getItem(
+        "item"
+      );
+      //   chosen_item resizable
+      $(".chosen_item resizable").ready(function () {
+        console.log("alo");
+      });
+      //   drop(null, document.getElementById("canvas").lastChild);
+      //   document
+      //     .getElementById("canvas")
+      //     .removeChild(document.getElementById("canvas").lastChild);
+      //   document.getElementById("canvas").addEventListener("click", (e) => {
+      //       console.dir(e.target.parentElement);
+      //     // if (e.target.matches("img")) {
+      //     //   e.preventDefault();
+      //     //   e.target.parentElement.addEventListener("dragover", () => {
+      //     //     console.log("aloo");
+      //     //   });
+      //     // }
+      //   });
+    </script>
+  </body>
 </html>
-
-

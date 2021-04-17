@@ -8,10 +8,30 @@ var input_wrapper = document.getElementById("input_wrapper");
 var search_input = document.getElementById("search_input");
 
 var itemList = {
-  accessories : [], blouse : [], boots : [], glasses : [], shoulder_bag : [], tote_bag : [], socks : [], watches : [], 
-  cardigan : [], coat : [], jacket : [], zip_up : [], knitwears : [], long_sleeve : [], short_sleeve : [], sleeveless : [], 
-  maxi_dress : [], mini_dress : [], skirt : [], short_pants : [], pants : [], jeans : [], sneakers : []
-}; 
+  accessories: [],
+  blouse: [],
+  boots: [],
+  glasses: [],
+  shoulder_bag: [],
+  tote_bag: [],
+  socks: [],
+  watches: [],
+  cardigan: [],
+  coat: [],
+  jacket: [],
+  zip_up: [],
+  knitwears: [],
+  long_sleeve: [],
+  short_sleeve: [],
+  sleeveless: [],
+  maxi_dress: [],
+  mini_dress: [],
+  skirt: [],
+  short_pants: [],
+  pants: [],
+  jeans: [],
+  sneakers: [],
+};
 var loveList = JSON.parse(localStorage.getItem("love list") || "[]");
 
 async function getAllData() {
@@ -25,7 +45,7 @@ async function getAllData() {
 getAllData();
 
 async function renderItem(id) {
-  let thisItem = await firebase.firestore().collection('items').doc(id).get();
+  let thisItem = await firebase.firestore().collection("items").doc(id).get();
   let category_name = thisItem.data().category;
   let price = thisItem.data().price;
 
@@ -37,60 +57,59 @@ async function renderItem(id) {
   let img = document.createElement("img");
   let price_tag = document.createElement("div");
 
-  item.classList.add("item")
+  item.classList.add("item");
 
-  option_wrapper.classList.add("option_wrapper")
-  option_wrapper.classList.add("flex-btw-center")
-  option_wrapper.style.display = "none"
-  btn_link.classList.add("btn_link")
-  btn_love.classList.add("btn_love")
-  if (loveList.includes(id)) {btn_love.classList.toggle("btn_loved")}
+  option_wrapper.classList.add("option_wrapper");
+  option_wrapper.classList.add("flex-btw-center");
+  option_wrapper.style.display = "none";
+  btn_link.classList.add("btn_link");
+  btn_love.classList.add("btn_love");
+  if (loveList.includes(id)) {
+    btn_love.classList.toggle("btn_loved");
+  }
 
   btn_link.href = "https://codibook.net/item/8343134";
-  btn_link.target="_blank"
-  
+  btn_link.target = "_blank";
+
   //Truyen thong so
-  img.classList.add("item_thumb")
-  img.id = `${id}`
-  img.setAttribute("draggable",true);
-  img.setAttribute("ondragstart","dragTransfer(event)");
-  img.src = `images/${category_name}/${id}.png`
+  img.classList.add("item_thumb");
+  img.id = `${id}`;
+  img.setAttribute("draggable", true);
+  img.setAttribute("ondragstart", "dragTransfer(event)");
+  img.src = `images/${category_name}/${id}.png`;
 
   price_tag.classList.add("boldtitle");
-  price_tag.textContent = `đ${price}.000`
+  price_tag.textContent = `đ${price}.000`;
 
   option_wrapper.appendChild(btn_link);
   option_wrapper.appendChild(btn_love);
-  item.appendChild(option_wrapper)
-  item.appendChild(img)
-  item.appendChild(price_tag)
+  item.appendChild(option_wrapper);
+  item.appendChild(img);
+  item.appendChild(price_tag);
 
-  item_wrapper.appendChild(item)
+  item_wrapper.appendChild(item);
 
   item.addEventListener("mouseenter", () => {
-    option_wrapper.style.display = "flex"
+    option_wrapper.style.display = "flex";
     option_wrapper.style.zIndex = 100;
-  })
+  });
 
   item.addEventListener("mouseleave", () => {
-    option_wrapper.style.display = "none"
-  })
+    option_wrapper.style.display = "none";
+  });
 
   btn_love.addEventListener("click", () => {
-    btn_love.classList.toggle("btn_loved")
+    btn_love.classList.toggle("btn_loved");
     let loveItem = id;
 
     if (btn_love.classList.contains("btn_loved")) {
-      loveList.push(loveItem)
-      localStorage.setItem('love list', JSON.stringify(loveList));
+      loveList.push(loveItem);
+      localStorage.setItem("love list", JSON.stringify(loveList));
+    } else {
+      loveList = loveList.filter((loveItem) => loveItem !== id);
+      localStorage.setItem("love list", JSON.stringify(loveList));
     }
-    else {
-      loveList = loveList.filter(loveItem => loveItem !== id)
-      localStorage.setItem('love list', JSON.stringify(loveList));
-    }
-    
-  })
-    
+  });
 }
 
 function openCategory(category_name) {
@@ -109,7 +128,7 @@ function openCategory(category_name) {
   let theList = itemList[category_name];
   theList.forEach((id) => {
     renderItem(id);
-  })
+  });
 }
 
 function closeCategory() {
@@ -130,7 +149,7 @@ function openLoveList() {
     `;
 
   item_wrapper.innerHTML = "";
-  loveList.forEach(doc => renderItem(doc));
+  loveList.forEach((doc) => renderItem(doc));
 }
 
 form.addEventListener("submit", async (e) => {
@@ -146,12 +165,13 @@ form.addEventListener("submit", async (e) => {
 
   for (const doc of allItems.docs) {
     if (doc.data().color === form[0].value) {
-      renderItem(doc.id);
+      await renderItem(doc.id);
     }
   }
-  console.dir(item_wrapper);
-  console.log(`Found ${item_wrapper.childElementCount} items`);
-  //if (!item_wrapper.childElementCount) {console.log("No items found")}
+
+  if (!item_wrapper.childElementCount) {
+    item_wrapper.innerText = "No items found";
+  }
 });
 
 function allowDrop(e) {
@@ -162,81 +182,159 @@ function dragTransfer(e) {
   e.dataTransfer.setData("item_id", e.target.id);
 }
 
-function drop(e) {
-  e.preventDefault();
+function drop(event, element = null) {
+  console.log("DROP");
+  if (element) {
+    console.dir(element);
+    let copyimg_wrapper = document.createElement("div");
+    let copyimg = document.createElement("img");
+    let btn_delete = document.createElement("button");
+    let canvas = document.getElementsByClassName("canvas")[0];
 
-  let item_id = e.dataTransfer.getData("item_id");
-  let original = document.getElementById(item_id);
-  let copyimg_wrapper = document.createElement("div");
-  let copyimg = document.createElement("img");
-  let btn_delete = document.createElement("button");
-  let canvas = document.getElementsByClassName("canvas")[0];
+    //Delete Button
+    btn_delete.classList.add("btn_close");
+    btn_delete.style.position = "absolute";
+    btn_delete.style.right = 0;
+    btn_delete.addEventListener("click", () => {
+      copyimg_wrapper.remove();
+    });
 
-  //Delete Button
-  btn_delete.classList.add("btn_close");
-  btn_delete.style.position = "absolute";
-  btn_delete.style.right = 0;
-  btn_delete.addEventListener("click", () => {
-    copyimg_wrapper.remove();
-  });
+    //Clone Image
+    copyimg_wrapper.className = "chosen_item resizable";
+    copyimg.src = element.lastChild.src;
+    copyimg.style.objectFit = "contain";
 
-  //Clone Image
-  copyimg_wrapper.className = "chosen_item resizable";
-  copyimg.src = original.src;
-  copyimg.style.objectFit = "contain";
+    copyimg_wrapper.style.position = "absolute";
+    //copyimg_wrapper.style.height = '200px';
+    copyimg_wrapper.style.width = "200px";
+    copyimg_wrapper.style.left =0
+      // event.clientX - canvas.getBoundingClientRect().left - 55 + "px";
+    copyimg_wrapper.style.top =0
+      // event.clientY - canvas.getBoundingClientRect().top - 55 + "px";
 
-  copyimg_wrapper.style.position = "absolute";
-  //copyimg_wrapper.style.height = '200px';
-  copyimg_wrapper.style.width = "200px";
-  copyimg_wrapper.style.left =
-    e.clientX - canvas.getBoundingClientRect().left - 55 + "px";
-  copyimg_wrapper.style.top =
-    e.clientY - canvas.getBoundingClientRect().top - 55 + "px";
+    copyimg_wrapper.appendChild(btn_delete);
+    copyimg_wrapper.appendChild(copyimg);
+    canvas.addEventListener("touchstart", dragStart, false);
+    canvas.addEventListener("touchend", dragEnd, false);
+    canvas.addEventListener("touchmove", dragItem, false);
 
-  copyimg_wrapper.appendChild(btn_delete);
-  copyimg_wrapper.appendChild(copyimg);
-  e.target.appendChild(copyimg_wrapper);
+    canvas.addEventListener("mousedown", dragStart, false);
+    canvas.addEventListener("mouseup", dragEnd, false);
+    canvas.addEventListener("mousemove", dragItem, false);
+    canvas.appendChild(copyimg_wrapper);
 
-  //Moving
-  copyimg_wrapper.ondragstart = function () {
-    return false;
-  };
+    //Moving
+    copyimg_wrapper.ondragstart = function () {
+      return false;
+    };
 
-  canvas.addEventListener("touchstart", dragStart, false);
-  canvas.addEventListener("touchend", dragEnd, false);
-  canvas.addEventListener("touchmove", dragItem, false);
+    //Resize
+    canvas.addEventListener("click", (e) => {
+      let targetElement = e.target; // clicked element
 
-  canvas.addEventListener("mousedown", dragStart, false);
-  canvas.addEventListener("mouseup", dragEnd, false);
-  canvas.addEventListener("mousemove", dragItem, false);
-
-  //Resize
-  canvas.addEventListener("click", (e) => {
-    let targetElement = e.target; // clicked element
-
-    do {
-      // if click inside
-      if (targetElement == copyimg_wrapper) {
-        if (copyimg_wrapper.classList.contains("resizable")) {
-          copyimg_wrapper.classList.remove("resizable");
-          copyimg_wrapper.classList.add("unresizable");
-          btn_delete.style.display = "none";
+      do {
+        // if click inside
+        if (targetElement == copyimg_wrapper) {
+          if (copyimg_wrapper.classList.contains("resizable")) {
+            copyimg_wrapper.classList.remove("resizable");
+            copyimg_wrapper.classList.add("unresizable");
+            btn_delete.style.display = "none";
+            return;
+          }
+          copyimg_wrapper.classList.remove("unresizable");
+          copyimg_wrapper.classList.add("resizable");
+          btn_delete.style.display = "block";
           return;
         }
-        copyimg_wrapper.classList.remove("unresizable");
-        copyimg_wrapper.classList.add("resizable");
-        btn_delete.style.display = "block";
-        return;
-      }
-      //go up the DOM
-      targetElement = targetElement.parentNode;
-    } while (targetElement);
+        //go up the DOM
+        targetElement = targetElement.parentNode;
+      } while (targetElement);
 
-    //click outside
-    copyimg_wrapper.classList.remove("resizable");
-    copyimg_wrapper.classList.add("unresizable");
-    btn_delete.style.display = "none";
-  });
+      //click outside
+      copyimg_wrapper.classList.remove("resizable");
+      copyimg_wrapper.classList.add("unresizable");
+      btn_delete.style.display = "none";
+    });
+  } else {
+    event.preventDefault();
+    console.dir(event.dataTransfer);
+    // console.log(e.dataTransfer);
+    // if (e.target.matches("img"))
+    // console.dir(e.srcElement.lastChild);
+    let item_id = event.dataTransfer.getData("item_id");
+    let original = document.getElementById(item_id);
+    let copyimg_wrapper = document.createElement("div");
+    let copyimg = document.createElement("img");
+    let btn_delete = document.createElement("button");
+    let canvas = document.getElementsByClassName("canvas")[0];
+
+    //Delete Button
+    btn_delete.classList.add("btn_close");
+    btn_delete.style.position = "absolute";
+    btn_delete.style.right = 0;
+    btn_delete.addEventListener("click", () => {
+      copyimg_wrapper.remove();
+    });
+
+    //Clone Image
+    copyimg_wrapper.className = "chosen_item resizable";
+    copyimg.src = original.src;
+    copyimg.style.objectFit = "contain";
+
+    copyimg_wrapper.style.position = "absolute";
+    //copyimg_wrapper.style.height = '200px';
+    copyimg_wrapper.style.width = "200px";
+    copyimg_wrapper.style.left =
+      event.clientX - canvas.getBoundingClientRect().left - 55 + "px";
+    copyimg_wrapper.style.top =
+      event.clientY - canvas.getBoundingClientRect().top - 55 + "px";
+
+    copyimg_wrapper.appendChild(btn_delete);
+    copyimg_wrapper.appendChild(copyimg);
+    
+
+    //Moving
+    copyimg_wrapper.ondragstart = function () {
+      return false;
+    };
+
+    canvas.addEventListener("touchstart", dragStart, false);
+    canvas.addEventListener("touchend", dragEnd, false);
+    canvas.addEventListener("touchmove", dragItem, false);
+
+    canvas.addEventListener("mousedown", dragStart, false);
+    canvas.addEventListener("mouseup", dragEnd, false);
+    canvas.addEventListener("mousemove", dragItem, false);
+    event.target.appendChild(copyimg_wrapper);
+
+    //Resize
+    canvas.addEventListener("click", (e) => {
+      let targetElement = e.target; // clicked element
+
+      do {
+        // if click inside
+        if (targetElement == copyimg_wrapper) {
+          if (copyimg_wrapper.classList.contains("resizable")) {
+            copyimg_wrapper.classList.remove("resizable");
+            copyimg_wrapper.classList.add("unresizable");
+            btn_delete.style.display = "none";
+            return;
+          }
+          copyimg_wrapper.classList.remove("unresizable");
+          copyimg_wrapper.classList.add("resizable");
+          btn_delete.style.display = "block";
+          return;
+        }
+        //go up the DOM
+        targetElement = targetElement.parentNode;
+      } while (targetElement);
+
+      //click outside
+      copyimg_wrapper.classList.remove("resizable");
+      copyimg_wrapper.classList.add("unresizable");
+      btn_delete.style.display = "none";
+    });
+  }
 }
 
 //Move item
@@ -331,9 +429,15 @@ btn_close[0].addEventListener("click", () => {
 });
 
 function saveImage() {
-  html2canvas(document.querySelector('.canvas'), {
-    onrendered: function(canvas) {
-      return Canvas2Image.saveAsPNG(canvas,1000,1000);
-    }
-});
+  // var elements = $(".canvas").detach();
+  // console.log(JSON.stringify(elements));
+  // console.log(elements);
+  // localStorage.setItem("item", document.getElementById("canvas"));
+
+  localStorage.setItem("item", document.getElementById("canvas").innerHTML);
+  html2canvas(document.querySelector(".canvas"), {
+    onrendered: function (canvas) {
+      return Canvas2Image.saveAsPNG(canvas, 1000, 1000);
+    },
+  });
 }

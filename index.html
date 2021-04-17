@@ -26,14 +26,10 @@
       <div class="navbar_right flex-btw-center">
         <ul class="flex-btw-center" style="width: 120px">
           <li>
-            <a href="closetPage.html">
-              <img class="menu_tab" src="assets/closet.svg" draggable="false"/>
-            </a>
+            <img class="menu_tab" src="assets/closet.svg" draggable="false" onclick="transition('closetPage.html')"/>
           </li>
           <li>
-            <a href="#">
-              <img class="menu_tab" src="assets/u_user.svg" draggable="false"/>
-            </a>
+            <img class="menu_tab" src="assets/u_user.svg" draggable="false" onclick="transition('myPage.html')"/>
           </li>
         </ul>
       </div>
@@ -45,7 +41,7 @@
           An <span class="highlight">effortless</span> way to
         </div>
         <div class="hero_title">Organize Your Clothes</div>
-        <button id="btn_start" class="boldtitle" type="button" onclick="location.href='closetPage.html'" style="font-size: 16px"
+        <button id="btn_start" class="boldtitle" type="button" onclick="transition('closetPage.html')" style="font-size: 16px"
                 data-tilt data-tilt-scale="1.1">
           Get Started
         </button>
@@ -132,6 +128,17 @@
       </div>
     </div>
 
+    <!-- <div class="body_container_2">
+      <div class="about_wrapper" style="text-align: center">
+        <div class="about_title">About the project</div>
+        <p><span>iStyle</span> is a website for clothes management</p>
+        <p>It is a long established fact that a reader 
+          will be distracted by the readable content
+          of a page when looking at its layout.</p>
+      </div>
+    </div> -->
+
+    <script src="index.js"></script>
     <script type="text/javascript" src="vanilla-tilt.js"></script>
 
   </body>

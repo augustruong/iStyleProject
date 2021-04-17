@@ -279,10 +279,14 @@ input {
     height: 535px;
     padding: 40px 15px 20px 20px;
     overflow: auto;
+    text-align: center;
+    color:rgb(180, 180, 180);
+    font-size: 14px;
 }
 
 .category, .item{
     float: left;
+    position: relative;
     min-width: 110px;
     min-height: 130px; 
     margin: 0 10px 30px 0;
@@ -330,6 +334,16 @@ img:-moz-drag-over{
     }
 }
 
+@keyframes flyback {
+    0%{
+        transform: var(--r) var(--sx) var(--sy);
+    }
+    100% {
+        top:-500px;
+        transform: var(--r) var(--sx) var(--sy);
+    }
+}
+
 @keyframes float {
 	0% {
 		transform: translatey(0px) var(--r) var(--sx) var(--sy);
@@ -356,6 +370,10 @@ img:-moz-drag-over{
     animation:spin 6s linear infinite;
 }
 
+.flyingback{
+    animation: flyback 1s ease-in-out;
+}
+
 .highlight {
     background: linear-gradient(to bottom, transparent 60%, #FFEDCB) center center/0% 75% no-repeat;
     background-size: 100% 100%;
@@ -367,7 +385,7 @@ img:-moz-drag-over{
     padding: 0 5px 0 5px;
 }
 
-.menu_tab:hover {background-size: 100% 100%;}
+.menu_tab:hover {background-size: 100% 100%; cursor: pointer;}
 .menu_tab:active {background-size: 75% 100%;}
 
 
