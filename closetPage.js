@@ -6,6 +6,7 @@ var btn_search = document.getElementById("btn_search");
 var btn_close = document.getElementsByClassName("btn_close");
 var input_wrapper = document.getElementById("input_wrapper");
 var search_input = document.getElementById("search_input");
+var canvas = document.getElementsByClassName("canvas")[0];
 
 var itemList = {
   accessories: [],
@@ -182,159 +183,75 @@ function dragTransfer(e) {
   e.dataTransfer.setData("item_id", e.target.id);
 }
 
-function drop(event, element = null) {
+function drop(event) {
   console.log("DROP");
-  if (element) {
-    console.dir(element);
-    let copyimg_wrapper = document.createElement("div");
-    let copyimg = document.createElement("img");
-    let btn_delete = document.createElement("button");
-    let canvas = document.getElementsByClassName("canvas")[0];
+  event.preventDefault();
+  let item_id = event.dataTransfer.getData("item_id");
+  let original = document.getElementById(item_id);
+  let copyimg_wrapper = document.createElement("div");
+  let copyimg = document.createElement("img");
+  let btn_delete = document.createElement("button");
 
-    //Delete Button
-    btn_delete.classList.add("btn_close");
-    btn_delete.style.position = "absolute";
-    btn_delete.style.right = 0;
-    btn_delete.addEventListener("click", () => {
-      copyimg_wrapper.remove();
-    });
+  //Delete Button
+  btn_delete.classList.add("btn_close");
+  btn_delete.style.position = "absolute";
+  btn_delete.style.right = 0;
+  btn_delete.addEventListener("click", () => {
+    copyimg_wrapper.remove();
+  });
 
-    //Clone Image
-    copyimg_wrapper.className = "chosen_item resizable";
-    copyimg.src = element.lastChild.src;
-    copyimg.style.objectFit = "contain";
+  //Clone Image
+  copyimg_wrapper.className = "chosen_item resizable";
+  copyimg.src = original.src;
+  copyimg.style.objectFit = "contain";
 
-    copyimg_wrapper.style.position = "absolute";
-    //copyimg_wrapper.style.height = '200px';
-    copyimg_wrapper.style.width = "200px";
-    copyimg_wrapper.style.left =0
-      // event.clientX - canvas.getBoundingClientRect().left - 55 + "px";
-    copyimg_wrapper.style.top =0
-      // event.clientY - canvas.getBoundingClientRect().top - 55 + "px";
+  copyimg_wrapper.style.position = "absolute";
+  //copyimg_wrapper.style.height = '200px';
+  copyimg_wrapper.style.width = "200px";
+  copyimg_wrapper.style.left =
+    event.clientX - canvas.getBoundingClientRect().left - 55 + "px";
+  copyimg_wrapper.style.top =
+    event.clientY - canvas.getBoundingClientRect().top - 55 + "px";
 
-    copyimg_wrapper.appendChild(btn_delete);
-    copyimg_wrapper.appendChild(copyimg);
-    canvas.addEventListener("touchstart", dragStart, false);
-    canvas.addEventListener("touchend", dragEnd, false);
-    canvas.addEventListener("touchmove", dragItem, false);
+  copyimg_wrapper.appendChild(btn_delete);
+  copyimg_wrapper.appendChild(copyimg);
 
-    canvas.addEventListener("mousedown", dragStart, false);
-    canvas.addEventListener("mouseup", dragEnd, false);
-    canvas.addEventListener("mousemove", dragItem, false);
-    canvas.appendChild(copyimg_wrapper);
+  //Moving
+  copyimg_wrapper.ondragstart = function () {
+    return false;
+  };
 
-    //Moving
-    copyimg_wrapper.ondragstart = function () {
-      return false;
-    };
+  event.target.appendChild(copyimg_wrapper);
 
-    //Resize
-    canvas.addEventListener("click", (e) => {
-      let targetElement = e.target; // clicked element
+  //Resize
+  copyimg_wrapper.addEventListener("click", (e) => {
+    let targetElement = e.target; // clicked element
 
-      do {
-        // if click inside
-        if (targetElement == copyimg_wrapper) {
-          if (copyimg_wrapper.classList.contains("resizable")) {
-            copyimg_wrapper.classList.remove("resizable");
-            copyimg_wrapper.classList.add("unresizable");
-            btn_delete.style.display = "none";
-            return;
-          }
-          copyimg_wrapper.classList.remove("unresizable");
-          copyimg_wrapper.classList.add("resizable");
-          btn_delete.style.display = "block";
+    //console.dir(targetElement);
+
+    do {
+      // if click inside
+      if (targetElement == copyimg_wrapper) {
+        if (copyimg_wrapper.classList.contains("resizable")) {
+          copyimg_wrapper.classList.remove("resizable");
+          copyimg_wrapper.classList.add("unresizable");
+          btn_delete.style.display = "none";
           return;
         }
-        //go up the DOM
-        targetElement = targetElement.parentNode;
-      } while (targetElement);
+        copyimg_wrapper.classList.remove("unresizable");
+        copyimg_wrapper.classList.add("resizable");
+        btn_delete.style.display = "block";
+        return;
+      }
+      //go up the DOM
+      targetElement = targetElement.parentNode;
+    } while (targetElement);
 
-      //click outside
-      copyimg_wrapper.classList.remove("resizable");
-      copyimg_wrapper.classList.add("unresizable");
-      btn_delete.style.display = "none";
-    });
-  } else {
-    event.preventDefault();
-    console.dir(event.dataTransfer);
-    // console.log(e.dataTransfer);
-    // if (e.target.matches("img"))
-    // console.dir(e.srcElement.lastChild);
-    let item_id = event.dataTransfer.getData("item_id");
-    let original = document.getElementById(item_id);
-    let copyimg_wrapper = document.createElement("div");
-    let copyimg = document.createElement("img");
-    let btn_delete = document.createElement("button");
-    let canvas = document.getElementsByClassName("canvas")[0];
-
-    //Delete Button
-    btn_delete.classList.add("btn_close");
-    btn_delete.style.position = "absolute";
-    btn_delete.style.right = 0;
-    btn_delete.addEventListener("click", () => {
-      copyimg_wrapper.remove();
-    });
-
-    //Clone Image
-    copyimg_wrapper.className = "chosen_item resizable";
-    copyimg.src = original.src;
-    copyimg.style.objectFit = "contain";
-
-    copyimg_wrapper.style.position = "absolute";
-    //copyimg_wrapper.style.height = '200px';
-    copyimg_wrapper.style.width = "200px";
-    copyimg_wrapper.style.left =
-      event.clientX - canvas.getBoundingClientRect().left - 55 + "px";
-    copyimg_wrapper.style.top =
-      event.clientY - canvas.getBoundingClientRect().top - 55 + "px";
-
-    copyimg_wrapper.appendChild(btn_delete);
-    copyimg_wrapper.appendChild(copyimg);
-    
-
-    //Moving
-    copyimg_wrapper.ondragstart = function () {
-      return false;
-    };
-
-    canvas.addEventListener("touchstart", dragStart, false);
-    canvas.addEventListener("touchend", dragEnd, false);
-    canvas.addEventListener("touchmove", dragItem, false);
-
-    canvas.addEventListener("mousedown", dragStart, false);
-    canvas.addEventListener("mouseup", dragEnd, false);
-    canvas.addEventListener("mousemove", dragItem, false);
-    event.target.appendChild(copyimg_wrapper);
-
-    //Resize
-    canvas.addEventListener("click", (e) => {
-      let targetElement = e.target; // clicked element
-
-      do {
-        // if click inside
-        if (targetElement == copyimg_wrapper) {
-          if (copyimg_wrapper.classList.contains("resizable")) {
-            copyimg_wrapper.classList.remove("resizable");
-            copyimg_wrapper.classList.add("unresizable");
-            btn_delete.style.display = "none";
-            return;
-          }
-          copyimg_wrapper.classList.remove("unresizable");
-          copyimg_wrapper.classList.add("resizable");
-          btn_delete.style.display = "block";
-          return;
-        }
-        //go up the DOM
-        targetElement = targetElement.parentNode;
-      } while (targetElement);
-
-      //click outside
-      copyimg_wrapper.classList.remove("resizable");
-      copyimg_wrapper.classList.add("unresizable");
-      btn_delete.style.display = "none";
-    });
-  }
+    //click outside
+    // copyimg_wrapper.classList.remove("resizable");
+    // copyimg_wrapper.classList.add("unresizable");
+    // btn_delete.style.display = "none";
+  });
 }
 
 //Move item
@@ -429,15 +346,30 @@ btn_close[0].addEventListener("click", () => {
 });
 
 function saveImage() {
-  // var elements = $(".canvas").detach();
-  // console.log(JSON.stringify(elements));
-  // console.log(elements);
-  // localStorage.setItem("item", document.getElementById("canvas"));
-
   localStorage.setItem("item", document.getElementById("canvas").innerHTML);
-  html2canvas(document.querySelector(".canvas"), {
-    onrendered: function (canvas) {
-      return Canvas2Image.saveAsPNG(canvas, 1000, 1000);
-    },
-  });
+  // html2canvas(document.querySelector(".canvas"), {
+  //   onrendered: function (canvas) {
+  //     return Canvas2Image.saveAsPNG(canvas, 1000, 1000);
+  //   },
+  // });
 }
+
+canvas.addEventListener("touchstart", dragStart, false);
+canvas.addEventListener("touchend", dragEnd, false);
+canvas.addEventListener("touchmove", dragItem, false);
+
+canvas.addEventListener("mousedown", dragStart, false);
+canvas.addEventListener("mouseup", dragEnd, false);
+canvas.addEventListener("mousemove", dragItem, false);
+
+canvas.addEventListener("click", (e) => {
+  let chosen_item = document.getElementsByClassName("chosen_item");
+  console.dir(chosen_item);
+  for (let i = 0; i < chosen_item.length; ++i) {
+    chosen_item[i].classList.remove("resizable");
+    chosen_item[i].classList.add("unresizable");
+    chosen_item[i].children[0].style.display = "none";
+    //btn_delete.style.display = "none";
+  }   
+  
+});
