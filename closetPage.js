@@ -208,10 +208,8 @@ function drop(event) {
   copyimg_wrapper.style.position = "absolute";
   //copyimg_wrapper.style.height = '200px';
   copyimg_wrapper.style.width = "200px";
-  copyimg_wrapper.style.left =
-    event.clientX - canvas.getBoundingClientRect().left - 55 + "px";
-  copyimg_wrapper.style.top =
-    event.clientY - canvas.getBoundingClientRect().top - 55 + "px";
+  copyimg_wrapper.style.left = event.clientX - canvas.getBoundingClientRect().left - 55 + "px";
+  copyimg_wrapper.style.top = event.clientY - canvas.getBoundingClientRect().top - 55 + "px";
 
   copyimg_wrapper.appendChild(btn_delete);
   copyimg_wrapper.appendChild(copyimg);
@@ -226,30 +224,7 @@ function drop(event) {
   //Resize
   copyimg_wrapper.addEventListener("click", (e) => {
     e.stopPropagation();
-    let targetElement = e.target; // clicked element
-
-    do {
-      // if click inside
-      if (targetElement == copyimg_wrapper) {
-        if (copyimg_wrapper.classList.contains("resizable")) {
-          copyimg_wrapper.classList.remove("resizable");
-          copyimg_wrapper.classList.add("unresizable");
-          btn_delete.style.display = "none";
-          return;
-        }
-        copyimg_wrapper.classList.remove("unresizable");
-        copyimg_wrapper.classList.add("resizable");
-        btn_delete.style.display = "block";
-        return;
-      }
-      //go up the DOM
-      targetElement = targetElement.parentNode;
-    } while (targetElement);
-
-    //click outside
-    // copyimg_wrapper.classList.remove("resizable");
-    // copyimg_wrapper.classList.add("unresizable");
-    // btn_delete.style.display = "none";
+    selectElement(e.target,copyimg_wrapper);
   });
 }
 
@@ -346,11 +321,48 @@ btn_close[0].addEventListener("click", () => {
 
 function saveImage() {
   localStorage.setItem("item", document.getElementById("canvas").innerHTML);
-  // html2canvas(document.querySelector(".canvas"), {
-  //   onrendered: function (canvas) {
-  //     return Canvas2Image.saveAsPNG(canvas, 1000, 1000);
-  //   },
-  // });
+  html2canvas(document.querySelector(".canvas"), {
+    onrendered: function (canvas) {
+      console.log(canvas.fileName);
+      return Canvas2Image.saveAsPNG(canvas, 1000, 1000);
+    },
+  });
+}
+
+function deselectAll() {
+    let chosen_item = document.getElementsByClassName("chosen_item");
+    for (let i = 0; i < chosen_item.length; ++i) {
+      let copyimg_wrapper = chosen_item[i];
+      let btn_delete = copyimg_wrapper.children[0]
+  
+      copyimg_wrapper.classList.remove("resizable");
+      copyimg_wrapper.classList.add("unresizable");
+      btn_delete.style.display = "none";
+    }
+}
+
+function selectElement(targetElement,copyimg_wrapper) {
+      let btn_delete = copyimg_wrapper.children[0];   
+      if (targetElement.tagName == "IMG") {targetElement = targetElement.parentElement;}
+      console.dir(targetElement)
+
+      targetElement.ondragstart = function () {
+        return false;
+      };
+      
+        if (targetElement == copyimg_wrapper) {
+          if (copyimg_wrapper.classList.contains("resizable")) {
+            copyimg_wrapper.classList.remove("resizable");
+            copyimg_wrapper.classList.add("unresizable");
+            btn_delete.style.display = "none";
+            return;
+          }
+          deselectAll();
+          copyimg_wrapper.classList.remove("unresizable");
+          copyimg_wrapper.classList.add("resizable");
+          btn_delete.style.display = "block";
+          return;
+        }
 }
 
 canvas.addEventListener("touchstart", dragStart, false);
@@ -361,60 +373,22 @@ canvas.addEventListener("mousedown", dragStart, false);
 canvas.addEventListener("mouseup", dragEnd, false);
 canvas.addEventListener("mousemove", dragItem, false);
 
-canvas.addEventListener("click", (e) => {
-  let targetElement = e.target; // clicked element
-  // if (targetElement.tagName == "IMG") {targetElement = targetElement.parentElement;}
-  // console.dir(targetElement)
-
-  let chosen_item = document.getElementsByClassName("chosen_item");
-  for (let i = 0; i < chosen_item.length; ++i) {
-    let copyimg_wrapper = chosen_item[i];
-    let btn_delete = copyimg_wrapper.children[0]
-
-    copyimg_wrapper.classList.remove("resizable");
-    copyimg_wrapper.classList.add("unresizable");
-    btn_delete.style.display = "none";
-  }
-});
+canvas.addEventListener("click", (e) => {deselectAll();})
 
 window.onload = function() {
   let chosen_item = document.getElementsByClassName("chosen_item");
-  console.dir(chosen_item)
   
   for (let i = 0; i < chosen_item.length; ++i) { 
     console.dir(chosen_item[i]);
     let copyimg_wrapper = chosen_item[i];
-    let btn_delete = copyimg_wrapper.children[0];    
+    let btn_delete = copyimg_wrapper.children[0];   
+    btn_delete.addEventListener("click", () => {
+      copyimg_wrapper.remove();
+    }); 
   
     copyimg_wrapper.addEventListener("click", (e) => {
       e.stopPropagation();
-      let targetElement = e.target; // clicked element
-      if (targetElement.tagName == "IMG") {targetElement = targetElement.parentElement;}
-      console.dir(targetElement)
-      
-      do {
-        // if click inside
-        if (targetElement == copyimg_wrapper) {
-          if (copyimg_wrapper.classList.contains("resizable")) {
-            copyimg_wrapper.classList.remove("resizable");
-            copyimg_wrapper.classList.add("unresizable");
-            btn_delete.style.display = "none";
-            return;
-          }
-          copyimg_wrapper.classList.remove("unresizable");
-          copyimg_wrapper.classList.add("resizable");
-          btn_delete.style.display = "block";
-          return;
-        }
-        //go up the DOM
-        targetElement = targetElement.parentNode;
-      } while (targetElement);
-  
-      //click outside
-      // copyimg_wrapper.classList.remove("resizable");
-      // copyimg_wrapper.classList.add("unresizable");
-      // btn_delete.style.display = "none";
+      selectElement(e.target,copyimg_wrapper);
     });
   }
 }
-
